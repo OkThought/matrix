@@ -32,10 +32,43 @@ const Game = observer(
       return (
         <div className="Game container">
           <div className="d-flex justify-content-center">
-            <Board board={this.board}/>
+            <div className="flex-column">
+              <div className="btn-group mt-2" role="group">
+                <button type="button"
+                        className="btn btn-secondary">
+                  Reset
+                </button>
+                <button type="button"
+                        className="btn btn-secondary"
+                        onClick={() => this.handleNextLevel()}>
+                  Next Level
+                </button>
+              </div>
+
+              <div className="mt-1">
+                <Board board={this.board}/>
+              </div>
+            </div>
           </div>
         </div>
       );
+    }
+
+    handleNextLevel() {
+      const all_positive = this.board.reduce((rows, row) =>
+        rows.concat(row)
+      ).filter(n => n > 0);
+
+      this.board.replace(all_positive.reduce((board, number) => {
+        const last_row_index = board.length - 1;
+        const last_row_size = board[last_row_index].length;
+        if (last_row_size < 9) {
+          board[last_row_index] = board[last_row_index].concat([number]);
+          return board;
+        } else {
+          return board.concat([[number]])
+        }
+      }, this.board));
     }
   }
 );
@@ -46,9 +79,9 @@ const Board = observer(
       return (
         <div className="Board">
           {this.props.board.map((row, row_index) =>
-            <div className="row">
+            <div className="row" key={row_index}>
               {row.map((number, col_index) =>
-                <div className="col-">
+                <div className="col-" key={col_index}>
                   <button type="button" className="btn btn-dark btn-sm rounded-0">
                     {number}
                   </button>
