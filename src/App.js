@@ -18,15 +18,15 @@ const App = observer(
   }
 );
 
+const INITIAL_BOARD = [
+  [1, 2, 3, 4, 5, 6, 7, 8, 9],
+  [1, 1, 1, 2, 1, 3, 1, 4, 1],
+  [5, 1, 6, 1, 7, 1, 8, 1, 9],
+];
+
 const Game = observer(
   class Game extends Component {
-    board = observable(
-      [
-        [1, 2, 3, 4, 5, 6, 7, 8, 9],
-        [1, 1, 1, 2, 1, 3, 1, 4, 1],
-        [5, 1, 6, 1, 7, 1, 8, 1, 9],
-      ]
-    );
+    board = observable(INITIAL_BOARD.slice());
 
     render() {
       return (
@@ -35,7 +35,8 @@ const Game = observer(
             <div className="flex-column">
               <div className="btn-group mt-2" role="group">
                 <button type="button"
-                        className="btn btn-secondary">
+                        className="btn btn-secondary"
+                        onClick={() => this.handleReset()}>
                   Reset
                 </button>
                 <button type="button"
@@ -69,6 +70,10 @@ const Game = observer(
           return board.concat([[number]])
         }
       }, this.board));
+    }
+
+    handleReset() {
+      this.board.replace(INITIAL_BOARD)
     }
   }
 );
