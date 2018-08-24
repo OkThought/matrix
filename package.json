@@ -1,22 +1,20 @@
 {
-  "name": "matrix",
-  "version": "0.1.0",
-  "private": true,
-  "homepage": "https://okthought.github.io/matrix/",
-  "dependencies": {
-    "gh-pages": "^1.2.0",
-    "mobx": "^5.0.4",
-    "mobx-react": "^5.2.5",
-    "react": "^16.4.2",
-    "react-dom": "^16.4.2",
-    "react-scripts": "1.1.5"
-  },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
-    "eject": "react-scripts eject"
+    "start": "node server.js"
+  },
+  "devDependencies": {
+    "@types/react": "^15.0.39",
+    "@types/react-dom": "^15.5.1",
+    "awesome-typescript-loader": "^3.2.1",
+    "typescript": "^2.4.2",
+    "webpack": "^3.0.0",
+    "webpack-dev-server": "^2.6.1"
+  },
+  "dependencies": {
+    "mobx": "^3.2.1",
+    "mobx-react": "^4.2.2",
+    "mobx-react-devtools": "^4.2.15",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1"
   }
 }

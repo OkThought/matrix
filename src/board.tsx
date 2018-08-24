@@ -1,7 +1,11 @@
-import {Component} from "react";
-import React from "react";
+import * as React from 'react';
 
-export class Board extends Component {
+interface Interface {
+  numbers: number[][],
+  onNumberClick: (row_index: number, col_index: number) => void,
+}
+
+class Board extends React.Component<Interface> {
   render() {
     return (
       <div className="Board">
@@ -24,3 +28,5 @@ export class Board extends Component {
     );
   }
 }
+
+export default Board;
