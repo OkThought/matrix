@@ -17,16 +17,19 @@ class Board extends React.Component<Interface> {
           return (
             <div className="row" key={row_index}>
               {row.map((number, col_index) => {
-                const selected = row_selected &&
-                  col_index === this.props.selectedNumberIndex.col_index;
-                const additional_class = selected ? " selected" : "";
+                let button_classes = "number btn btn-dark btn-sm rounded-0";
+
+                if (row_selected &&
+                  col_index === this.props.selectedNumberIndex.col_index) {
+                  button_classes += " selected";
+                } else if (number === 0) {
+                  button_classes += " crossed-out"
+                }
+
                 return (
                   <div className="col-" key={col_index}>
                     <button type="button"
-                            className={
-                              `Number btn btn-dark btn-sm rounded-0
-                              ${additional_class}`
-                            }
+                            className={button_classes}
                             onClick={() => this.props.onNumberClick(row_index, col_index)}>
                       {number}
                     </button>
