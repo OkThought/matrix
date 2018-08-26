@@ -6,12 +6,9 @@ import {observer} from "mobx-react";
 class App extends React.Component {
   render() {
     return (
-      <div className="app">
-        <header className="app-header">
-          <h1 className="app-title">Matrix</h1>
-        </header>
+      <main role="main" className="container">
         <Matrix/>
-      </div>
+      </main>
     );
   }
 }

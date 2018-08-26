@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Board_index from './board_index';
+import BoardIndex from './board_index';
 import Board from './board';
 import {observer} from "mobx-react";
 import {computed, observable} from "mobx";
@@ -25,27 +25,27 @@ class Matrix extends React.Component {
 
   render() {
     return (
-      <div className="Game container">
-        <div className="d-flex justify-content-center">
-          <div className="flex-column">
-            <div className="btn-group mt-2" role="group">
-              <button type="button"
-                      className="btn btn-secondary"
-                      onClick={() => this.handleReset()}>
-                Reset
-              </button>
-              <button type="button"
-                      className="btn btn-secondary"
-                      onClick={() => this.handleNextLevel()}>
-                Next Level
-              </button>
-            </div>
+      <div className="d-flex justify-content-center">
+        <div className="d-flex flex-column align-items-center">
+          <div className="h1">Matrix</div>
+          <div className="btn-group mt-2" role="group">
+            <button type="button"
+                    className="btn btn-secondary"
+                    onClick={() => this.handleReset()}>
+              Reset
+            </button>
+            <button type="button"
+                    className="btn btn-secondary"
+                    onClick={() => this.handleNextLevel()}>
+              Next Level
+            </button>
+          </div>
 
-            <div className="mt-1">
-              <Board numbers={this.numbers}
-                     onNumberClick={(row_index, col_index) =>
-                       this.handleNumberClick(row_index, col_index)}/>
-            </div>
+          <div className="mt-1">
+            <Board numbers={this.numbers}
+                   selectedNumberIndex={this.selectedNumberIndex}
+                   onNumberClick={(row_index, col_index) =>
+                     this.handleNumberClick(row_index, col_index)}/>
           </div>
         </div>
       </div>
@@ -54,20 +54,20 @@ class Matrix extends React.Component {
 
   handleNumberClick(row_index, col_index) {
     const clickedNumber = this.numbers[row_index][col_index];
-    const clickedNumberIndex = new Board_index(row_index, col_index);
+    const clickedNumberIndex = new BoardIndex(row_index, col_index);
     if (clickedNumber > 0 && clickedNumber < 10) {
-      if (this.selectedNumberIndex.defined) {
+      if (this.selectedNumberIndex) {
         if (clickedNumberIndex.isNeighborWith(this.selectedNumberIndex) &&
           numbers_match(clickedNumber, this.selectedNumber)) {
           this.crossOut(clickedNumberIndex, this.selectedNumberIndex);
         } else {
-          this.selectedNumberIndex.unset();
+          this.selectedNumberIndex = undefined;
         }
       } else {
-        this.selectedNumberIndex.set(clickedNumberIndex);
+        this.selectedNumberIndex = clickedNumberIndex;
       }
     } else if (clickedNumber === 0) {
-      // do nothing
+      this.selectedNumberIndex = undefined;
     } else {
       throw Error(`Unexpected number ${clickedNumber}`);
     }

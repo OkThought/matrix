@@ -1,6 +1,6 @@
 export const DEFAULT_BOARD_WIDTH = 9;
 
-export default class Board_index {
+class BoardIndex {
   readonly row_index: number;
   readonly col_index: number;
   private readonly board_width: number;
@@ -8,7 +8,7 @@ export default class Board_index {
   static bySingleIndex(index, board_width = DEFAULT_BOARD_WIDTH) {
     const row_index = index / board_width;
     const col_index = index % board_width;
-    return new Board_index(row_index, col_index, board_width);
+    return new BoardIndex(row_index, col_index, board_width);
   }
 
   constructor(row_index, col_index,
@@ -31,10 +31,12 @@ export default class Board_index {
     return this.neighbor_offsets
       .map(offset => singleIndex + offset)
       .filter(i => i >= 0)
-      .map(i => Board_index.bySingleIndex(i, this.board_width));
+      .map(i => BoardIndex.bySingleIndex(i, this.board_width));
   }
 
   isNeighborWith(that) {
     return this.neighbors.indexOf(that) >= 0;
   }
 }
+
+export default BoardIndex;
