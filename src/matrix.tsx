@@ -9,7 +9,7 @@ class Matrix extends React.Component {
   public numbers = INITIAL_BOARD.slice();
 
   @observable
-  public selectedNumberIndex: number;
+  public previousSelectedNumberIndex: number;
 
   @computed
   get numbersTable() {
@@ -22,22 +22,22 @@ class Matrix extends React.Component {
   }
 
   @computed
-  get selectedNumber() {
-    if (this.selectedNumberIndex >= 0 &&
-      this.selectedNumberIndex < this.numbers.length) {
-      return this.numbers[this.selectedNumberIndex];
+  get previousSelectedNumber() {
+    if (this.previousSelectedNumberIndex >= 0 &&
+      this.previousSelectedNumberIndex < this.numbers.length) {
+      return this.numbers[this.previousSelectedNumberIndex];
     }
     return undefined;
   }
 
   @computed
-  get selectedRow() {
-    return Math.floor(this.selectedNumberIndex / BOARD_WIDTH);
+  get previousSelectedNumberRow() {
+    return Math.floor(this.previousSelectedNumberIndex / BOARD_WIDTH);
   }
 
   @computed
-  get selectedCol() {
-    return this.selectedNumberIndex % BOARD_WIDTH;
+  get previousSelectedNumberCol() {
+    return this.previousSelectedNumberIndex % BOARD_WIDTH;
   }
 
   public render() {
@@ -60,8 +60,8 @@ class Matrix extends React.Component {
 
           <div className="mt-1">
             <Board numbers={this.numbersTable}
-                   selectedRow={this.selectedRow}
-                   selectedCol={this.selectedCol}
+                   previousSelectedNumberRow={this.previousSelectedNumberRow}
+                   previousSelectedNumberCol={this.previousSelectedNumberCol}
                    onNumberClick={(row, col) =>
                      this.handleNumberClick(row, col)}/>
           </div>
@@ -74,22 +74,22 @@ class Matrix extends React.Component {
     const clickedNumberIndex = row * BOARD_WIDTH + col;
     const clickedNumber = this.numbers[clickedNumberIndex];
     if (clickedNumber > 0 && clickedNumber < 10) {
-      if (this.selectedNumberIndex !== undefined) {
-        if (this.selectedNumberIndex === clickedNumberIndex) {
-          this.selectedNumberIndex = undefined;
-        } else if (this.areNeighbors(clickedNumberIndex, this.selectedNumberIndex)) {
-          if (numbersMatch(clickedNumber, this.selectedNumber)) {
+      if (this.previousSelectedNumberIndex !== undefined) {
+        if (this.previousSelectedNumberIndex === clickedNumberIndex) {
+          this.previousSelectedNumberIndex = undefined;
+        } else if (this.areNeighbors(clickedNumberIndex, this.previousSelectedNumberIndex)) {
+          if (numbersMatch(clickedNumber, this.previousSelectedNumber)) {
             this.numbers[clickedNumberIndex] = 0;
-            this.numbers[this.selectedNumberIndex] = 0;
-            this.selectedNumberIndex = undefined;
+            this.numbers[this.previousSelectedNumberIndex] = 0;
+            this.previousSelectedNumberIndex = undefined;
           } else {
-            this.selectedNumberIndex = clickedNumberIndex;
+            this.previousSelectedNumberIndex = clickedNumberIndex;
           }
         } else {
-          this.selectedNumberIndex = clickedNumberIndex;
+          this.previousSelectedNumberIndex = clickedNumberIndex;
         }
       } else {
-        this.selectedNumberIndex = clickedNumberIndex;
+        this.previousSelectedNumberIndex = clickedNumberIndex;
       }
     } else if (clickedNumber === 0) {
       // do nothing

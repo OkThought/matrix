@@ -3,8 +3,8 @@ import * as React from "react";
 interface Interface {
   numbers: number[][];
   onNumberClick: (row: number, col: number) => void;
-  selectedRow?: number;
-  selectedCol?: number;
+  previousSelectedNumberRow?: number;
+  previousSelectedNumberCol?: number;
 }
 
 class Board extends React.Component<Interface> {
@@ -16,14 +16,14 @@ class Board extends React.Component<Interface> {
     return (
       <div className="Board">
         {this.numbers.map((row, rowIndex) => {
-          const rowSelected = rowIndex === this.props.selectedRow;
+          const rowSelected = rowIndex === this.props.previousSelectedNumberRow;
           return (
             <div className="row" key={rowIndex}>
               {row.map((theNumber, colIndex) => {
                 let buttonClasses = "number btn btn-dark btn-sm rounded-0";
                 let buttonDisabled = false;
                 if (rowSelected &&
-                  colIndex === this.props.selectedCol) {
+                  colIndex === this.props.previousSelectedNumberCol) {
                   buttonClasses += " selected";
                 } else if (theNumber === 0) {
                   buttonClasses += " crossed-out";
@@ -31,7 +31,7 @@ class Board extends React.Component<Interface> {
                 }
 
                 return (
-                  <div className="col-" key={rowIndex * 33 + colIndex}>
+                  <div className="col-" key={(rowIndex << 10) + colIndex}>
                     <button type="button"
                             className={buttonClasses}
                             onClick={() => this.props.onNumberClick(rowIndex, colIndex)}
