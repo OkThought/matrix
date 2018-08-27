@@ -1,26 +1,29 @@
 import * as React from "react";
-import BoardIndex from "./board_index";
 
 interface Interface {
   numbers: number[][];
   onNumberClick: (row: number, col: number) => void;
-  selectedNumberIndex?: BoardIndex;
+  selectedRow?: number;
+  selectedCol?: number;
 }
 
 class Board extends React.Component<Interface> {
+  get numbers() {
+    return this.props.numbers;
+  }
+
   public render() {
     return (
       <div className="Board">
-        {this.props.numbers.map((row, rowIndex) => {
-          const rowSelected = this.props.selectedNumberIndex &&
-            rowIndex === this.props.selectedNumberIndex.row;
+        {this.numbers.map((row, rowIndex) => {
+          const rowSelected = rowIndex === this.props.selectedRow;
           return (
             <div className="row" key={rowIndex}>
               {row.map((theNumber, colIndex) => {
                 let buttonClasses = "number btn btn-dark btn-sm rounded-0";
                 let buttonDisabled = false;
                 if (rowSelected &&
-                  colIndex === this.props.selectedNumberIndex.col) {
+                  colIndex === this.props.selectedCol) {
                   buttonClasses += " selected";
                 } else if (theNumber === 0) {
                   buttonClasses += " crossed-out";
@@ -28,7 +31,7 @@ class Board extends React.Component<Interface> {
                 }
 
                 return (
-                  <div className="col-" key={colIndex}>
+                  <div className="col-" key={rowIndex * 33 + colIndex}>
                     <button type="button"
                             className={buttonClasses}
                             onClick={() => this.props.onNumberClick(rowIndex, colIndex)}

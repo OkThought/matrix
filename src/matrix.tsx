@@ -2,7 +2,6 @@ import {computed, observable} from "mobx";
 import {observer} from "mobx-react";
 import * as React from "react";
 import Board from "./board";
-import BoardIndex from "./board_index";
 
 @observer
 class Matrix extends React.Component {
@@ -13,13 +12,32 @@ class Matrix extends React.Component {
   public selectedNumberIndex = undefined;
 
   @computed
+  get numbersTable() {
+    const result = [];
+    for (let i = 0; i < this.numbers.length; i += BOARD_WIDTH) {
+      const sliceEnd = Math.min(i + BOARD_WIDTH, this.numbers.length);
+      result.push(this.numbers.slice(i, sliceEnd));
+    }
+    return result;
+  }
+
+  @computed
   get selectedNumber() {
-    if (this.selectedNumberIndex) {
-      const row = this.selectedNumberIndex.row;
-      const col = this.selectedNumberIndex.col;
-      return this.numbers[row][col];
+    if (this.selectedNumberIndex >= 0 &&
+      this.selectedNumberIndex < this.numbers.length) {
+      return this.numbers[this.selectedNumberIndex];
     }
     return undefined;
+  }
+
+  @computed
+  get selectedRow() {
+    return Math.floor(this.selectedNumberIndex / BOARD_WIDTH);
+  }
+
+  @computed
+  get selectedCol() {
+    return this.selectedNumberIndex % BOARD_WIDTH;
   }
 
   public render() {
@@ -41,8 +59,9 @@ class Matrix extends React.Component {
           </div>
 
           <div className="mt-1">
-            <Board numbers={this.numbers}
-                   selectedNumberIndex={this.selectedNumberIndex}
+            <Board numbers={this.numbersTable}
+                   selectedRow={this.selectedRow}
+                   selectedCol={this.selectedCol}
                    onNumberClick={(row, col) =>
                      this.handleNumberClick(row, col)}/>
           </div>
@@ -52,14 +71,16 @@ class Matrix extends React.Component {
   }
 
   public handleNumberClick(row, col) {
-    const clickedNumber = this.numbers[row][col];
-    const clickedNumberIndex = new BoardIndex(row, col);
+    const clickedNumberIndex = row * BOARD_WIDTH + col;
+    const clickedNumber = this.numbers[clickedNumberIndex];
     if (clickedNumber > 0 && clickedNumber < 10) {
       if (this.selectedNumberIndex) {
         if (this.areNeighbors(clickedNumberIndex, this.selectedNumberIndex)) {
+          console.log('neighbors');
           if (numbersMatch(clickedNumber, this.selectedNumber)) {
             console.log('match');
-            this.crossOut(clickedNumberIndex, this.selectedNumberIndex);
+            this.numbers[clickedNumberIndex] = 0;
+            this.numbers[this.selectedNumberIndex] = 0;
           } else {
             this.selectedNumberIndex = clickedNumberIndex;
           }
@@ -76,67 +97,48 @@ class Matrix extends React.Component {
     }
   }
 
-  public crossOut(index1, index2) {
-    const numbers = this.numbers.slice();
-    numbers[index1.row][index1.col] = 0;
-    numbers[index2.row][index2.col] = 0;
-    this.numbers = numbers;
-  }
-
   public handleNextLevel() {
-    const allPositive = this.numbers.reduce((rows, row) =>
-      rows.concat(row),
-    ).filter((n) => n > 0);
-
-    this.numbers = (allPositive.reduce((board, theNumber) => {
-      const lastRow = board.length - 1;
-      const lastRowSize = board[lastRow].length;
-      if (lastRowSize < 9) {
-        board[lastRow] = board[lastRow].concat([theNumber]);
-        return board;
-      } else {
-        return board.concat([[theNumber]]);
-      }
-    }, this.numbers));
+    const positiveNumbers = this.numbers.filter((n) => n > 0);
+    this.numbers.push(...positiveNumbers);
   }
 
   public handleReset() {
-    this.numbers = INITIAL_BOARD;
+    this.numbers = INITIAL_BOARD.slice();
   }
 
-  private areNeighbors(cell1: BoardIndex, cell2: BoardIndex) {
-    return this.neighbors(cell1).find((cell) => (
-      cell.row === cell2.row &&
-      cell.col === cell2.col
-    ));
+  private areNeighbors(index1: number, index2: number) {
+    return this.neighbors(index1).indexOf(index2) >= 0;
   }
 
-  private neighbors(cell: BoardIndex) {
+  private neighbors(index: number) {
     const neighbors = [];
-    [cell.right, cell.left, cell.up, cell.down].forEach((offset) => {
-      let i = offset.call(cell);
-      while (i &&
-        i.row < this.numbers.length &&
-        i.col < this.numbers[i.row].length &&
-        this.numbers[i.row][i.col] === 0) {
-        i = offset.call(i);
-      }
-      if (i) {
-        neighbors.push(i);
+    [-BOARD_WIDTH, -1, +1, +BOARD_WIDTH].forEach((offset) => {
+      let i = index;
+      while (true) {
+        i += offset;
+        if (i < 0 || i >= this.numbers.length) {
+          break;
+        }
+        if (this.numbers[i] !== 0) {
+          neighbors.push(i);
+          break;
+        }
       }
     });
     return neighbors;
   }
 }
 
+const BOARD_WIDTH = 9;
+
 const INITIAL_BOARD = [
-  [1, 2, 3, 4, 5, 6, 7, 8, 9],
-  [1, 1, 1, 2, 1, 3, 1, 4, 1],
-  [5, 1, 6, 1, 7, 1, 8, 1, 9],
+  1, 2, 3, 4, 5, 6, 7, 8, 9,
+  1, 1, 1, 2, 1, 3, 1, 4, 1,
+  5, 1, 6, 1, 7, 1, 8, 1, 9,
 ];
 
 function numbersMatch(a, b) {
-  return a + b === 10 || a === b;
+  return a + b === BOARD_WIDTH + 1 || a === b;
 }
 
 export default Matrix;
