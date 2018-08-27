@@ -81,6 +81,7 @@ class Matrix extends React.Component {
             console.log('match');
             this.numbers[clickedNumberIndex] = 0;
             this.numbers[this.selectedNumberIndex] = 0;
+            this.selectedNumberIndex = undefined;
           } else {
             this.selectedNumberIndex = clickedNumberIndex;
           }
