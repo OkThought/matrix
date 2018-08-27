@@ -1,41 +1,51 @@
 export const DEFAULT_BOARD_WIDTH = 9;
 
 class BoardIndex {
-  readonly row_index: number;
-  readonly col_index: number;
-  private readonly board_width: number;
-
-  static bySingleIndex(index, board_width = DEFAULT_BOARD_WIDTH) {
-    const row_index = index / board_width;
-    const col_index = index % board_width;
-    return new BoardIndex(row_index, col_index, board_width);
+  public static bySingleIndex(index, boardWidth = DEFAULT_BOARD_WIDTH) {
+    const row = Math.floor(index / boardWidth);
+    const col = index % boardWidth;
+    return new BoardIndex(row, col, boardWidth);
   }
 
-  constructor(row_index, col_index,
-              board_width=DEFAULT_BOARD_WIDTH) {
-    this.row_index = row_index;
-    this.col_index = col_index;
-    this.board_width = board_width;
+  public readonly row: number;
+  public readonly col: number;
+  private readonly boardWidth: number;
+
+  constructor(row, col,
+              boardWidth = DEFAULT_BOARD_WIDTH) {
+    this.row = row;
+    this.col = col;
+    this.boardWidth = boardWidth;
   }
 
-  get neighbor_offsets() {
-    return [-this.board_width, -1, 1, +this.board_width];
+  get neighborOffsets() {
+    return [-this.boardWidth, -1, 1, +this.boardWidth];
   }
 
   get singleIndex() {
-    return this.row_index * DEFAULT_BOARD_WIDTH + this.col_index;
+    return this.row * DEFAULT_BOARD_WIDTH + this.col;
   }
 
-  get neighbors() {
+  get neighbors(): BoardIndex[] {
     const singleIndex = this.singleIndex;
-    return this.neighbor_offsets
-      .map(offset => singleIndex + offset)
-      .filter(i => i >= 0)
-      .map(i => BoardIndex.bySingleIndex(i, this.board_width));
+    return this.neighborOffsets
+      .map((offset) => singleIndex + offset)
+      .filter((i) => i >= 0)
+      .map((i) => BoardIndex.bySingleIndex(i, this.boardWidth));
   }
 
-  isNeighborWith(that) {
-    return this.neighbors.indexOf(that) >= 0;
+  public isNeighborWith(that) {
+    return this.neighbors.find((e: BoardIndex) => {
+      return e.equals(that);
+    }) !== undefined;
+  }
+
+  public equals(that: BoardIndex) {
+    return this.row === that.row && this.col === that.col;
+  }
+
+  public toString() {
+    return `${this.row}:${this.col}`;
   }
 }
 

@@ -1,29 +1,28 @@
-import * as React from 'react';
-import BoardIndex from './board_index';
-import Board from './board';
-import {observer} from "mobx-react";
 import {computed, observable} from "mobx";
-
+import {observer} from "mobx-react";
+import * as React from "react";
+import Board from "./board";
+import BoardIndex from "./board_index";
 
 @observer
 class Matrix extends React.Component {
   @observable
-  numbers = INITIAL_BOARD.slice();
+  public numbers = INITIAL_BOARD.slice();
 
   @observable
-  selectedNumberIndex = undefined;
+  public selectedNumberIndex = undefined;
 
   @computed
   get selectedNumber() {
     if (this.selectedNumberIndex.defined) {
-      const row = this.selectedNumberIndex.row_index;
-      const col = this.selectedNumberIndex.col_index;
+      const row = this.selectedNumberIndex.row;
+      const col = this.selectedNumberIndex.col;
       return this.numbers[row][col];
     }
     return undefined;
   }
 
-  render() {
+  public render() {
     return (
       <div className="d-flex justify-content-center">
         <div className="d-flex flex-column align-items-center">
@@ -44,21 +43,27 @@ class Matrix extends React.Component {
           <div className="mt-1">
             <Board numbers={this.numbers}
                    selectedNumberIndex={this.selectedNumberIndex}
-                   onNumberClick={(row_index, col_index) =>
-                     this.handleNumberClick(row_index, col_index)}/>
+                   onNumberClick={(row, col) =>
+                     this.handleNumberClick(row, col)}/>
           </div>
         </div>
       </div>
     );
   }
 
-  handleNumberClick(row_index, col_index) {
-    const clickedNumber = this.numbers[row_index][col_index];
-    const clickedNumberIndex = new BoardIndex(row_index, col_index);
+  public handleNumberClick(row, col) {
+    const clickedNumber = this.numbers[row][col];
+    const clickedNumberIndex = new BoardIndex(row, col);
+    console.log(`number ${clickedNumber} at ${clickedNumberIndex} clicked`);
+    console.log(clickedNumberIndex.neighbors);
     if (clickedNumber > 0 && clickedNumber < 10) {
       if (this.selectedNumberIndex) {
+        if (clickedNumberIndex.isNeighborWith(this.selectedNumberIndex)) {
+          console.log(`neighbors`);
+        }
         if (clickedNumberIndex.isNeighborWith(this.selectedNumberIndex) &&
-          numbers_match(clickedNumber, this.selectedNumber)) {
+          numbersMatch(clickedNumber, this.selectedNumber)) {
+          console.log(`numbers ${clickedNumber} and ${this.selectedNumber} match`);
           this.crossOut(clickedNumberIndex, this.selectedNumberIndex);
         } else {
           this.selectedNumberIndex = undefined;
@@ -73,29 +78,29 @@ class Matrix extends React.Component {
     }
   }
 
-  crossOut(index1, index2) {
-    this.numbers[index1.row_index][index1.col_index] = 0;
-    this.numbers[index2.row_index][index2.col_index] = 0;
+  public crossOut(index1, index2) {
+    this.numbers[index1.row][index1.col] = 0;
+    this.numbers[index2.row][index2.col] = 0;
   }
 
-  handleNextLevel() {
-    const all_positive = this.numbers.reduce((rows, row) =>
-      rows.concat(row)
-    ).filter(n => n > 0);
+  public handleNextLevel() {
+    const allPositive = this.numbers.reduce((rows, row) =>
+      rows.concat(row),
+    ).filter((n) => n > 0);
 
-    this.numbers = (all_positive.reduce((board, number) => {
-      const last_row_index = board.length - 1;
-      const last_row_size = board[last_row_index].length;
-      if (last_row_size < 9) {
-        board[last_row_index] = board[last_row_index].concat([number]);
+    this.numbers = (allPositive.reduce((board, theNumber) => {
+      const lastRow = board.length - 1;
+      const lastRowSize = board[lastRow].length;
+      if (lastRowSize < 9) {
+        board[lastRow] = board[lastRow].concat([theNumber]);
         return board;
       } else {
-        return board.concat([[number]])
+        return board.concat([[theNumber]]);
       }
     }, this.numbers));
   }
 
-  handleReset() {
+  public handleReset() {
     this.numbers = INITIAL_BOARD;
   }
 }
@@ -106,7 +111,7 @@ const INITIAL_BOARD = [
   [5, 1, 6, 1, 7, 1, 8, 1, 9],
 ];
 
-function numbers_match(a, b) {
+function numbersMatch(a, b) {
   return a + b === 10 || a === b;
 }
 
