@@ -2,3 +2,4 @@ extends: tslint:recommended
 rules:
   quotemark: false
   no-console: false
+  no-trailing-whitespace: false
