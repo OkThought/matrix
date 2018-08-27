@@ -9,7 +9,7 @@ class Matrix extends React.Component {
   public numbers = INITIAL_BOARD.slice();
 
   @observable
-  public selectedNumberIndex = undefined;
+  public selectedNumberIndex: number;
 
   @computed
   get numbersTable() {
@@ -74,11 +74,11 @@ class Matrix extends React.Component {
     const clickedNumberIndex = row * BOARD_WIDTH + col;
     const clickedNumber = this.numbers[clickedNumberIndex];
     if (clickedNumber > 0 && clickedNumber < 10) {
-      if (this.selectedNumberIndex) {
-        if (this.areNeighbors(clickedNumberIndex, this.selectedNumberIndex)) {
-          console.log('neighbors');
+      if (this.selectedNumberIndex !== undefined) {
+        if (this.selectedNumberIndex === clickedNumberIndex) {
+          this.selectedNumberIndex = undefined;
+        } else if (this.areNeighbors(clickedNumberIndex, this.selectedNumberIndex)) {
           if (numbersMatch(clickedNumber, this.selectedNumber)) {
-            console.log('match');
             this.numbers[clickedNumberIndex] = 0;
             this.numbers[this.selectedNumberIndex] = 0;
             this.selectedNumberIndex = undefined;
@@ -108,6 +108,7 @@ class Matrix extends React.Component {
   }
 
   private areNeighbors(index1: number, index2: number) {
+    console.log(`checking for neighbors ${index1} and ${index2}`);
     return this.neighbors(index1).indexOf(index2) >= 0;
   }
 
