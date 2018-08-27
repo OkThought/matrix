@@ -18,30 +18,44 @@ class BoardIndex {
     this.boardWidth = boardWidth;
   }
 
-  get neighborOffsets() {
-    return [-this.boardWidth, -1, 1, +this.boardWidth];
-  }
-
   get singleIndex() {
     return this.row * DEFAULT_BOARD_WIDTH + this.col;
   }
 
-  get neighbors(): BoardIndex[] {
-    const singleIndex = this.singleIndex;
-    return this.neighborOffsets
-      .map((offset) => singleIndex + offset)
-      .filter((i) => i >= 0)
-      .map((i) => BoardIndex.bySingleIndex(i, this.boardWidth));
+  public offset(row: number, col: number) {
+    const newRow = this.row + row;
+    if (newRow < 0) {
+      return undefined;
+    }
+    const newCol = this.col + col;
+    if (newCol < 0) {
+      return undefined;
+    }
+    return new BoardIndex(this.row + row, this.col + col);
   }
 
-  public isNeighborWith(that) {
-    return this.neighbors.find((e: BoardIndex) => {
-      return e.equals(that);
-    }) !== undefined;
+  public singleOffset(offset: number) {
+    const index = this.singleIndex + offset;
+    if (index < 0) {
+      return undefined;
+    }
+    return BoardIndex.bySingleIndex(index);
   }
 
-  public equals(that: BoardIndex) {
-    return this.row === that.row && this.col === that.col;
+  public up() {
+    return this.offset(-1, 0);
+  }
+
+  public down() {
+    return this.offset(+1, 0);
+  }
+
+  public right() {
+    return this.singleOffset(+1);
+  }
+
+  public left() {
+    return this.singleOffset(-1);
   }
 
   public toString() {

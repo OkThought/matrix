@@ -56,7 +56,7 @@ class Matrix extends React.Component {
     const clickedNumberIndex = new BoardIndex(row, col);
     if (clickedNumber > 0 && clickedNumber < 10) {
       if (this.selectedNumberIndex) {
-        if (clickedNumberIndex.isNeighborWith(this.selectedNumberIndex)) {
+        if (this.areNeighbors(clickedNumberIndex, this.selectedNumberIndex)) {
           if (numbersMatch(clickedNumber, this.selectedNumber)) {
             console.log('match');
             this.crossOut(clickedNumberIndex, this.selectedNumberIndex);
@@ -102,6 +102,30 @@ class Matrix extends React.Component {
 
   public handleReset() {
     this.numbers = INITIAL_BOARD;
+  }
+
+  private areNeighbors(cell1: BoardIndex, cell2: BoardIndex) {
+    return this.neighbors(cell1).find((cell) => (
+      cell.row === cell2.row &&
+      cell.col === cell2.col
+    ));
+  }
+
+  private neighbors(cell: BoardIndex) {
+    const neighbors = [];
+    [cell.right, cell.left, cell.up, cell.down].forEach((offset) => {
+      let i = offset.call(cell);
+      while (i &&
+        i.row < this.numbers.length &&
+        i.col < this.numbers[i.row].length &&
+        this.numbers[i.row][i.col] === 0) {
+        i = offset.call(i);
+      }
+      if (i) {
+        neighbors.push(i);
+      }
+    });
+    return neighbors;
   }
 }
 
