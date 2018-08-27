@@ -77,8 +77,10 @@ class Matrix extends React.Component {
   }
 
   public crossOut(index1, index2) {
-    this.numbers[index1.row][index1.col] = 0;
-    this.numbers[index2.row][index2.col] = 0;
+    const numbers = this.numbers.slice();
+    numbers[index1.row][index1.col] = 0;
+    numbers[index2.row][index2.col] = 0;
+    this.numbers = numbers;
   }
 
   public handleNextLevel() {
