@@ -61,7 +61,7 @@ class Matrix extends React.Component {
             console.log('match');
             this.crossOut(clickedNumberIndex, this.selectedNumberIndex);
           } else {
-            this.selectedNumberIndex = undefined;
+            this.selectedNumberIndex = clickedNumberIndex;
           }
         } else {
           this.selectedNumberIndex = clickedNumberIndex;
@@ -70,7 +70,7 @@ class Matrix extends React.Component {
         this.selectedNumberIndex = clickedNumberIndex;
       }
     } else if (clickedNumber === 0) {
-      this.selectedNumberIndex = undefined;
+      // do nothing
     } else {
       throw Error(`Unexpected number ${clickedNumber}`);
     }
