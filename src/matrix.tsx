@@ -14,7 +14,7 @@ class Matrix extends React.Component {
 
   @computed
   get selectedNumber() {
-    if (this.selectedNumberIndex.defined) {
+    if (this.selectedNumberIndex) {
       const row = this.selectedNumberIndex.row;
       const col = this.selectedNumberIndex.col;
       return this.numbers[row][col];
@@ -54,19 +54,17 @@ class Matrix extends React.Component {
   public handleNumberClick(row, col) {
     const clickedNumber = this.numbers[row][col];
     const clickedNumberIndex = new BoardIndex(row, col);
-    console.log(`number ${clickedNumber} at ${clickedNumberIndex} clicked`);
-    console.log(clickedNumberIndex.neighbors);
     if (clickedNumber > 0 && clickedNumber < 10) {
       if (this.selectedNumberIndex) {
         if (clickedNumberIndex.isNeighborWith(this.selectedNumberIndex)) {
-          console.log(`neighbors`);
-        }
-        if (clickedNumberIndex.isNeighborWith(this.selectedNumberIndex) &&
-          numbersMatch(clickedNumber, this.selectedNumber)) {
-          console.log(`numbers ${clickedNumber} and ${this.selectedNumber} match`);
-          this.crossOut(clickedNumberIndex, this.selectedNumberIndex);
+          if (numbersMatch(clickedNumber, this.selectedNumber)) {
+            console.log('match');
+            this.crossOut(clickedNumberIndex, this.selectedNumberIndex);
+          } else {
+            this.selectedNumberIndex = undefined;
+          }
         } else {
-          this.selectedNumberIndex = undefined;
+          this.selectedNumberIndex = clickedNumberIndex;
         }
       } else {
         this.selectedNumberIndex = clickedNumberIndex;
