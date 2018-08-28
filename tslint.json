@@ -5,5 +5,8 @@
     "no-console": false,
     "no-trailing-whitespace": false,
     "no-bitwise": false
+  },
+  "jsRules": {
+    "quotemark": false
   }
 }
