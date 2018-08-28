@@ -111,7 +111,7 @@ class Matrix extends React.Component {
         rowsToRemove.push(i);
       }
     }
-    rowsToRemove.forEach((i) => {
+    rowsToRemove.reverse().forEach((i) => {
       this.numbers.splice(i, BOARD_WIDTH);
     });
   }
