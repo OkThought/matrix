@@ -104,12 +104,16 @@ class Matrix extends React.Component {
   }
 
   private removeZeroRows() {
+    const rowsToRemove: number[] = [];
     for (let i = 0; i < this.numbers.length - BOARD_WIDTH; i += BOARD_WIDTH) {
       const row = this.numbers.slice(i, i + BOARD_WIDTH);
       if (row.every((n) => n === 0)) {
-        this.numbers.splice(i, BOARD_WIDTH);
+        rowsToRemove.push(i);
       }
     }
+    rowsToRemove.forEach((i) => {
+      this.numbers.splice(i, BOARD_WIDTH);
+    });
   }
 
   private handleNextLevel() {

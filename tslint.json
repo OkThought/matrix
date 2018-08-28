@@ -4,7 +4,8 @@
     "quotemark": false,
     "no-console": false,
     "no-trailing-whitespace": false,
-    "no-bitwise": false
+    "no-bitwise": false,
+    "forin": false
   },
   "jsRules": {
     "quotemark": false
