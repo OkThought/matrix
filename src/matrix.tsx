@@ -122,7 +122,6 @@ class Matrix extends React.Component {
   }
 
   private areNeighbors(index1: number, index2: number) {
-    console.log(`checking for neighbors ${index1} and ${index2}`);
     return this.neighbors(index1).indexOf(index2) >= 0;
   }
 
