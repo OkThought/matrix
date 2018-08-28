@@ -79,9 +79,7 @@ class Matrix extends React.Component {
           this.previousSelectedNumberIndex = undefined;
         } else if (this.areNeighbors(clickedNumberIndex, this.previousSelectedNumberIndex)) {
           if (numbersMatch(clickedNumber, this.previousSelectedNumber)) {
-            this.numbers[clickedNumberIndex] = 0;
-            this.numbers[this.previousSelectedNumberIndex] = 0;
-            this.previousSelectedNumberIndex = undefined;
+            this.crossOut(this.previousSelectedNumberIndex, clickedNumberIndex);
           } else {
             this.previousSelectedNumberIndex = clickedNumberIndex;
           }
@@ -98,12 +96,28 @@ class Matrix extends React.Component {
     }
   }
 
-  public handleNextLevel() {
+  private crossOut(index1: number, index2: number) {
+    this.numbers[index1] = 0;
+    this.numbers[index2] = 0;
+    this.previousSelectedNumberIndex = undefined;
+    this.removeZeroRows();
+  }
+
+  private removeZeroRows() {
+    for (let i = 0; i < this.numbers.length - BOARD_WIDTH; i += BOARD_WIDTH) {
+      const row = this.numbers.slice(i, i + BOARD_WIDTH);
+      if (row.every((n) => n === 0)) {
+        this.numbers.splice(i, BOARD_WIDTH);
+      }
+    }
+  }
+
+  private handleNextLevel() {
     const positiveNumbers = this.numbers.filter((n) => n > 0);
     this.numbers.push(...positiveNumbers);
   }
 
-  public handleReset() {
+  private handleReset() {
     this.numbers = INITIAL_BOARD.slice();
   }
 
