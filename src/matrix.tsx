@@ -1,4 +1,4 @@
-import {computed, observable} from "mobx";
+import {action, computed, observable} from "mobx";
 import {observer} from "mobx-react";
 import * as React from "react";
 import Board from "./board";
@@ -6,39 +6,13 @@ import Board from "./board";
 @observer
 class Matrix extends React.Component {
   @observable
-  public numbers = INITIAL_BOARD.slice();
+  private history: number[][] = [INITIAL_BOARD.slice()];
 
   @observable
-  public previousSelectedNumberIndex: number;
+  private positionInHistory: number = 0;
 
-  @computed
-  get numbersTable() {
-    const result = [];
-    for (let i = 0; i < this.numbers.length; i += BOARD_WIDTH) {
-      const sliceEnd = Math.min(i + BOARD_WIDTH, this.numbers.length);
-      result.push(this.numbers.slice(i, sliceEnd));
-    }
-    return result;
-  }
-
-  @computed
-  get previousSelectedNumber() {
-    if (this.previousSelectedNumberIndex >= 0 &&
-      this.previousSelectedNumberIndex < this.numbers.length) {
-      return this.numbers[this.previousSelectedNumberIndex];
-    }
-    return undefined;
-  }
-
-  @computed
-  get previousSelectedNumberRow() {
-    return Math.floor(this.previousSelectedNumberIndex / BOARD_WIDTH);
-  }
-
-  @computed
-  get previousSelectedNumberCol() {
-    return this.previousSelectedNumberIndex % BOARD_WIDTH;
-  }
+  @observable
+  private previousSelectedNumberIndex: number;
 
   public render() {
     return (
@@ -50,6 +24,18 @@ class Matrix extends React.Component {
                     className="btn btn-secondary"
                     onClick={() => this.handleReset()}>
               Reset
+            </button>
+            <button type="button"
+                    className="btn btn-secondary"
+                    onClick={() => this.handleUndo()}
+                    disabled={!this.canUndo}>
+              Undo
+            </button>
+            <button type="button"
+                    className="btn btn-secondary"
+                    onClick={() => this.handleRedo()}
+                    disabled={!this.canRedo}>
+              Redo
             </button>
             <button type="button"
                     className="btn btn-secondary"
@@ -70,6 +56,41 @@ class Matrix extends React.Component {
     );
   }
 
+  @computed
+  private get numbers() {
+    return this.history[this.positionInHistory];
+  }
+
+  @computed
+  private get numbersTable() {
+    const result = [];
+    for (let i = 0; i < this.numbers.length; i += BOARD_WIDTH) {
+      const sliceEnd = Math.min(i + BOARD_WIDTH, this.numbers.length);
+      result.push(this.numbers.slice(i, sliceEnd));
+    }
+    return result;
+  }
+
+  @computed
+  private get previousSelectedNumber() {
+    if (this.previousSelectedNumberIndex >= 0 &&
+      this.previousSelectedNumberIndex < this.numbers.length) {
+      return this.numbers[this.previousSelectedNumberIndex];
+    }
+    return undefined;
+  }
+
+  @computed
+  private get previousSelectedNumberRow() {
+    return Math.floor(this.previousSelectedNumberIndex / BOARD_WIDTH);
+  }
+
+  @computed
+  private get previousSelectedNumberCol() {
+    return this.previousSelectedNumberIndex % BOARD_WIDTH;
+  }
+
+  @action
   public handleNumberClick(row, col) {
     const clickedNumberIndex = row * BOARD_WIDTH + col;
     const clickedNumber = this.numbers[clickedNumberIndex];
@@ -96,13 +117,19 @@ class Matrix extends React.Component {
     }
   }
 
+  @action
   private crossOut(index1: number, index2: number) {
-    this.numbers[index1] = 0;
-    this.numbers[index2] = 0;
+    const numbers = this.numbers.slice();
+    numbers[index1] = 0;
+    numbers[index2] = 0;
     this.previousSelectedNumberIndex = undefined;
+
+    this.history = this.history.slice(0, this.positionInHistory + 1).concat([numbers]);
+    this.positionInHistory++;
     this.removeZeroRows();
   }
 
+  @action
   private removeZeroRows() {
     const rowsToRemove: number[] = [];
     for (let i = 0; i < this.numbers.length - BOARD_WIDTH; i += BOARD_WIDTH) {
@@ -116,13 +143,37 @@ class Matrix extends React.Component {
     });
   }
 
-  private handleNextLevel() {
-    const positiveNumbers = this.numbers.filter((n) => n > 0);
-    this.numbers.push(...positiveNumbers);
+  private get canUndo() {
+    return this.positionInHistory > 0;
   }
 
+  @action
+  private handleUndo() {
+    this.positionInHistory--;
+  }
+
+  private get canRedo() {
+    return this.positionInHistory < this.history.length - 1;
+  }
+
+  @action
+  private handleRedo() {
+    this.positionInHistory++;
+  }
+
+  @action
+  private handleNextLevel() {
+    const numbers = this.numbers.slice();
+    const positiveNumbers = numbers.filter((n) => n > 0);
+    numbers.push(...positiveNumbers);
+    this.history = [numbers];
+    this.positionInHistory = 0;
+  }
+
+  @action
   private handleReset() {
-    this.numbers = INITIAL_BOARD.slice();
+    this.history = [INITIAL_BOARD.slice()];
+    this.positionInHistory = 0;
   }
 
   private areNeighbors(index1: number, index2: number) {
