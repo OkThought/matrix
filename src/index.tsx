@@ -1,8 +1,8 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import App from './app';
+import AppRouter from "./router";
 // noinspection ES6UnusedImports
 import './styles';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<AppRouter/>, document.getElementById('root'));
 // registerServiceWorker();
