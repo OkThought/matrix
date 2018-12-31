@@ -49,7 +49,8 @@ class Matrix extends React.Component {
                    previousSelectedNumberRow={this.previousSelectedNumberRow}
                    previousSelectedNumberCol={this.previousSelectedNumberCol}
                    onNumberClick={(row, col) =>
-                     this.handleNumberClick(row, col)}/>
+                     this.handleNumberClick(row, col)
+                   }/>
           </div>
         </div>
       </div>
@@ -74,7 +75,7 @@ class Matrix extends React.Component {
   @computed
   private get previousSelectedNumber() {
     if (this.previousSelectedNumberIndex >= 0 &&
-      this.previousSelectedNumberIndex < this.numbers.length) {
+        this.previousSelectedNumberIndex < this.numbers.length) {
       return this.numbers[this.previousSelectedNumberIndex];
     }
     return undefined;
