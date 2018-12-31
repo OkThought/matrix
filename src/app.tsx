@@ -1,6 +1,6 @@
 import {observer} from "mobx-react";
 import * as React from "react";
-import Matrix from "./matrix";
+import Matrix from "./game/matrix";
 
 @observer
 class App extends React.Component {
