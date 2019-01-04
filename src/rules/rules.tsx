@@ -1,4 +1,11 @@
 import * as React from "react";
+import * as classical_board from "./classical_board.png";
+import * as cross_out_horizontal from "./cross_out_horizontal.png";
+import * as cross_out_horizontal_with_zeros from "./cross_out_horizontal_with_zeros.png";
+import * as cross_out_horizontal_with_zeros_next_line from "./cross_out_horizontal_with_zeros_next_line.png";
+import * as cross_out_vertical from "./cross_out_vertical.png";
+import * as cross_out_vertical_with_zeros from "./cross_out_vertical_with_zeros.png";
+import * as next_level from "./next_level.png";
 
 const Rules = () => (
   <div>
@@ -8,7 +15,7 @@ const Rules = () => (
     <p>
       The classical board looks like this:
     </p>
-    <img src="/images/board10.png"/>
+    <img src={classical_board} alt="classical_board"/>
 
     <h4>Goal</h4>
     <p>
@@ -30,23 +37,23 @@ const Rules = () => (
         They go one after another (from <b>left</b> to <b>right</b>,
         from <b>top</b> to <b>bottom</b>):
         <br/>
-        <img src="/images/cross-out-horizontal.png"/>
+        <img src={cross_out_horizontal} alt="cross_out_horizontal"/>
         <br/>
         There can be any number of `zeros` between them:
         <br/>
-        <img src="/images/cross-out-horizontal-with-zeros.png"/>
+        <img src={cross_out_horizontal_with_zeros} alt="cross_out_horizontal_with_zeros"/>
         <br/>
         The second one can even be one the next line:
         <br/>
-        <img src="/images/cross-out-horizontal-with-zeros-next-line.png"/>
+        <img src={cross_out_horizontal_with_zeros_next_line} alt="cross_out_horizontal_with_zeros_next_line"/>
       </li>
       <li>
         They lie vertically next to each other:<br/>
-        <img src="/images/cross-out-vertical.png"/>
+        <img src={cross_out_vertical} alt="cross_out_vertical"/>
         <br/>
         There can be any number of `zeros` between them:
         <br/>
-        <img src="/images/cross-out-vertical-with-zeros.png"/>
+        <img src={cross_out_vertical_with_zeros} alt="cross_out_vertical_with_zeros"/>
       </li>
     </ol>
 
@@ -54,7 +61,7 @@ const Rules = () => (
     <p>
       In the most cases you can't win on the first level. When you can't find
       any more pairs to cross out, just go to the next level
-      (click <img src="/images/next-level.png"/>).
+      (click <img src={next_level} alt="next_level"/>).
 
       It will duplicate
       all the numbers in the current board except `zeros` and place them to the
