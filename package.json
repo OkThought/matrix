@@ -19,7 +19,6 @@
     "not ie <= 11",
     "not op_mini all"
   ],
-
   "devDependencies": {
     "@types/bootstrap": "^4.2.0",
     "@types/node-sass": "^3.10.32",
