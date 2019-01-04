@@ -5,7 +5,7 @@ import Home from "./home/home";
 import Rules from "./rules/rules";
 
 const AppRouter = () => (
-  <Router>
+  <Router basename="matrix">
     <div>
       <nav>
         <ul>
