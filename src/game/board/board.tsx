@@ -1,6 +1,6 @@
 import * as React from "react";
 
-// import * as styles from "../../styles.css";
+import * as styles from "./_board.sass";
 import Cell from "./cell/cell";
 
 interface IBoardProps {
@@ -17,7 +17,7 @@ class Board extends React.Component<IBoardProps> {
 
   public render() {
     return (
-      <div className="Board">
+      <div className={styles.Board}>
         {this.numbers.map((row, rowIndex) => {
           const rowSelected = rowIndex === this.props.previousSelectedNumberRow;
           return (
