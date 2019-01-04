@@ -1,8 +1,8 @@
 import * as React from "react";
 import {BrowserRouter as Router, Link, Route} from "react-router-dom";
-import Matrix from "./game/matrix";
-import Home from "./home/home";
-import Rules from "./rules/rules";
+import Matrix from "../game/matrix";
+import Home from "../home/home";
+import Rules from "../rules/rules";
 
 const AppRouter = () => (
   <Router basename="matrix">
