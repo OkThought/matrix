@@ -1,8 +1,13 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import AppRouter from "./router";
-// noinspection ES6UnusedImports
-import './styles';
+import * as styles from './index.module.css';
 
-ReactDOM.render(<AppRouter/>, document.getElementById('root'));
+const root = document.getElementById('root');
+const Index = () => (
+  <div className={styles.index}>
+    <AppRouter/>
+  </div>
+);
+
+ReactDOM.render(<Index/>, root);
 // registerServiceWorker();
