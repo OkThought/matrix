@@ -4,10 +4,10 @@
   "homepage": "https://OkThought.github.io/matrix/",
   "repository": "https://github.com/OkThought/matrix",
   "scripts": {
-    "build": "react-scripts-ts build",
-    "start": "react-scripts-ts start",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "watch": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
   "devDependencies": {
     "@types/bootstrap": "^4.2.0",
@@ -19,7 +19,6 @@
     "css-loader": "^2.1.0",
     "gh-pages": "^1.2.0",
     "node-sass": "^4.11.0",
-    "react-scripts-ts": "^2.17.0",
     "sass-loader": "^7.1.0",
     "tslint": "^5.12.0",
     "typescript": "^2.9.2",
@@ -34,6 +33,7 @@
     "mobx-react-devtools": "^4.2.15",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
-    "react-router-dom": "^4.3.1"
+    "react-router-dom": "^4.3.1",
+    "react-scripts": "^2.1.2"
   }
 }
