@@ -1,8 +1,9 @@
 import {action, computed, observable} from "mobx";
 import {observer} from "mobx-react";
 import * as React from "react";
+
 import Board from "./board";
-import * as styles from "./matrix.module.css";
+import * as styles from "./_matrix.sass";
 
 @observer
 class Matrix extends React.Component {
