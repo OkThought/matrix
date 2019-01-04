@@ -2,6 +2,7 @@ import {action, computed, observable} from "mobx";
 import {observer} from "mobx-react";
 import * as React from "react";
 import Board from "./board";
+import * as styles from "./matrix.module.css";
 
 @observer
 class Matrix extends React.Component {
@@ -14,6 +15,9 @@ class Matrix extends React.Component {
 
   @observable
   private previousSelectedNumberIndex: number;
+
+  @observable
+  private crossoutsMade: number = 0;
 
   @computed
   private get numbers() {
@@ -62,38 +66,47 @@ class Matrix extends React.Component {
       <div className="d-flex justify-content-center">
         <div className="d-flex flex-column align-items-center">
           <div className="h1">Matrix</div>
-          <div className="btn-group mt-2" role="group">
-            <button type="button"
-                    className="btn btn-secondary"
-                    onClick={() => this.handleReset()}>
-              Reset
-            </button>
-            <button type="button"
-                    className="btn btn-secondary"
-                    onClick={() => this.handleUndo()}
-                    disabled={!this.canUndo}>
-              Undo
-            </button>
-            <button type="button"
-                    className="btn btn-secondary"
-                    onClick={() => this.handleRedo()}
-                    disabled={!this.canRedo}>
-              Redo
-            </button>
-            <button type="button"
-                    className="btn btn-secondary"
-                    onClick={() => this.handleNextLevel()}>
-              Next Level
-            </button>
-          </div>
 
-          <div className="mt-1">
-            <Board numbers={this.numbersTable}
-                   previousSelectedNumberRow={this.previousSelectedNumberRow}
-                   previousSelectedNumberCol={this.previousSelectedNumberCol}
-                   onNumberClick={(row, col) =>
-                     this.handleNumberClick(row, col)
-                   }/>
+          <div className="row mt-2">
+            <div className="col d-flex flex-column align-items-center">
+              <div className="btn-group" role="group">
+                <button type="button"
+                        className="btn btn-secondary"
+                        onClick={() => this.handleReset()}>
+                  Reset
+                </button>
+                <button type="button"
+                        className="btn btn-secondary"
+                        onClick={() => this.handleUndo()}
+                        disabled={!this.canUndo}>
+                  Undo
+                </button>
+                <button type="button"
+                        className="btn btn-secondary"
+                        onClick={() => this.handleRedo()}
+                        disabled={!this.canRedo}>
+                  Redo
+                </button>
+                <button type="button"
+                        className="btn btn-secondary"
+                        onClick={() => this.handleNextLevel()}>
+                  Next Level
+                </button>
+              </div>
+              <div className="mt-1">
+                <Board numbers={this.numbersTable}
+                       previousSelectedNumberRow={this.previousSelectedNumberRow}
+                       previousSelectedNumberCol={this.previousSelectedNumberCol}
+                       onNumberClick={(row, col) =>
+                         this.handleNumberClick(row, col)
+                       }/>
+              </div>
+            </div>
+            <div className="col- mt-5">
+              <span className={styles.scoreText}>
+                {"Crossouts: " + this.crossoutsMade}
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -141,6 +154,7 @@ class Matrix extends React.Component {
     this.history = this.history.slice(0, this.positionInHistory + 1).concat([numbers]);
     this.positionInHistory++;
     this.removeZeroRows();
+    this.crossoutsMade++;
   }
 
   @action
@@ -160,11 +174,13 @@ class Matrix extends React.Component {
   @action
   private handleUndo() {
     this.positionInHistory--;
+    this.crossoutsMade--;
   }
 
   @action
   private handleRedo() {
     this.positionInHistory++;
+    this.crossoutsMade++;
   }
 
   @action
@@ -180,6 +196,7 @@ class Matrix extends React.Component {
   private handleReset() {
     this.history = [INITIAL_BOARD.slice()];
     this.positionInHistory = 0;
+    this.crossoutsMade = 0;
   }
 
   private areNeighbors(index1: number, index2: number) {

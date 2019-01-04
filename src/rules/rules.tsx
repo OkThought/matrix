@@ -17,9 +17,10 @@ const Rules = () => (
     </p>
     <img src={classical_board} alt="classical_board"/>
 
-    <h4>Goal</h4>
+    <h4 className="mt-2">Goal</h4>
     <p>
-      The goal is to cross out all the numbers, so that the game board is empty.
+      The goal is to cross out all the numbers, so that the game board is empty
+      and in as few crossouts as possible.
     </p>
 
     <h4>How to cross out?</h4>
