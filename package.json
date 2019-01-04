@@ -9,6 +9,17 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+  "main": "src/index.tsx",
+  "author": "OkThought <bogush.vano@gmail.com>",
+  "license": "MIT",
+  "private": false,
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+
   "devDependencies": {
     "@types/bootstrap": "^4.2.0",
     "@types/node-sass": "^3.10.32",
@@ -35,15 +46,5 @@
     "react-dom": "^15.6.1",
     "react-router-dom": "^4.3.1",
     "react-scripts": "^2.1.2"
-  },
-  "main": "src/index.tsx",
-  "author": "OkThought <bogush.vano@gmail.com>",
-  "license": "MIT",
-  "private": false,
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ]
+  }
 }
