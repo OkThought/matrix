@@ -17,7 +17,7 @@ const Rules = () => (
     </p>
     <img src={classical_board} alt="classical_board"/>
 
-    <h4>Goal</h4>
+    <h4 className="mt-2">Goal</h4>
     <p>
       The goal is to cross out all the numbers, so that the game board is empty.
     </p>
