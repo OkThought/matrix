@@ -1,6 +1,12 @@
 {
   "main.css": "static/css/main.6556cec7.css",
   "main.css.map": "static/css/main.6556cec7.css.map",
-  "main.js": "static/js/main.da32585e.js",
-  "main.js.map": "static/js/main.da32585e.js.map"
+  "main.js": "static/js/main.e71fdb3d.js",
+  "main.js.map": "static/js/main.e71fdb3d.js.map",
+  "static/media/classical_board.png": "static/media/classical_board.f1c3bf37.png",
+  "static/media/cross_out_horizontal.png": "static/media/cross_out_horizontal.70a7e08f.png",
+  "static/media/cross_out_horizontal_with_zeros.png": "static/media/cross_out_horizontal_with_zeros.1563fd28.png",
+  "static/media/cross_out_horizontal_with_zeros_next_line.png": "static/media/cross_out_horizontal_with_zeros_next_line.c8a4d556.png",
+  "static/media/cross_out_vertical.png": "static/media/cross_out_vertical.e5faef2d.png",
+  "static/media/cross_out_vertical_with_zeros.png": "static/media/cross_out_vertical_with_zeros.0dabbe77.png"
 }
