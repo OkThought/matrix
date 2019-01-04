@@ -2,8 +2,8 @@ import {action, computed, observable} from "mobx";
 import {observer} from "mobx-react";
 import * as React from "react";
 
-import Board from "./board";
 import * as styles from "./_matrix.sass";
+import Board from "./board/board";
 
 @observer
 class Matrix extends React.Component {
@@ -98,7 +98,7 @@ class Matrix extends React.Component {
                 <Board numbers={this.numbersTable}
                        previousSelectedNumberRow={this.previousSelectedNumberRow}
                        previousSelectedNumberCol={this.previousSelectedNumberCol}
-                       onNumberClick={(row, col) =>
+                       onCellClick={(row, col) =>
                          this.handleNumberClick(row, col)
                        }/>
               </div>
