@@ -5,14 +5,57 @@ import Board from "./board";
 
 @observer
 class Matrix extends React.Component {
+
   @observable
-  private history: number[][] = [INITIAL_BOARD.slice()];
+  private history: number[][] = [[...INITIAL_BOARD]];
 
   @observable
   private positionInHistory: number = 0;
 
   @observable
   private previousSelectedNumberIndex: number;
+
+  @computed
+  private get numbers() {
+    return this.history[this.positionInHistory];
+  }
+
+  @computed
+  private get numbersTable() {
+    const result = [];
+    for (let i = 0; i < this.numbers.length; i += BOARD_WIDTH) {
+      const sliceEnd = Math.min(i + BOARD_WIDTH, this.numbers.length);
+      result.push(this.numbers.slice(i, sliceEnd));
+    }
+    return result;
+  }
+
+  @computed
+  private get previousSelectedNumber() {
+    if (this.previousSelectedNumberIndex >= 0 &&
+        this.previousSelectedNumberIndex < this.numbers.length) {
+      return this.numbers[this.previousSelectedNumberIndex];
+    }
+    return undefined;
+  }
+
+  @computed
+  private get previousSelectedNumberRow() {
+    return Math.floor(this.previousSelectedNumberIndex / BOARD_WIDTH);
+  }
+
+  @computed
+  private get previousSelectedNumberCol() {
+    return this.previousSelectedNumberIndex % BOARD_WIDTH;
+  }
+
+  private get canUndo() {
+    return this.positionInHistory > 0;
+  }
+
+  private get canRedo() {
+    return this.positionInHistory < this.history.length - 1;
+  }
 
   public render() {
     return (
@@ -57,64 +100,34 @@ class Matrix extends React.Component {
     );
   }
 
-  @computed
-  private get numbers() {
-    return this.history[this.positionInHistory];
-  }
-
-  @computed
-  private get numbersTable() {
-    const result = [];
-    for (let i = 0; i < this.numbers.length; i += BOARD_WIDTH) {
-      const sliceEnd = Math.min(i + BOARD_WIDTH, this.numbers.length);
-      result.push(this.numbers.slice(i, sliceEnd));
-    }
-    return result;
-  }
-
-  @computed
-  private get previousSelectedNumber() {
-    if (this.previousSelectedNumberIndex >= 0 &&
-        this.previousSelectedNumberIndex < this.numbers.length) {
-      return this.numbers[this.previousSelectedNumberIndex];
-    }
-    return undefined;
-  }
-
-  @computed
-  private get previousSelectedNumberRow() {
-    return Math.floor(this.previousSelectedNumberIndex / BOARD_WIDTH);
-  }
-
-  @computed
-  private get previousSelectedNumberCol() {
-    return this.previousSelectedNumberIndex % BOARD_WIDTH;
-  }
-
   @action
-  public handleNumberClick(row, col) {
+  private handleNumberClick(row, col) {
     const clickedNumberIndex = row * BOARD_WIDTH + col;
     const clickedNumber = this.numbers[clickedNumberIndex];
-    if (clickedNumber > 0 && clickedNumber < 10) {
-      if (this.previousSelectedNumberIndex !== undefined) {
-        if (this.previousSelectedNumberIndex === clickedNumberIndex) {
-          this.previousSelectedNumberIndex = undefined;
-        } else if (this.areNeighbors(clickedNumberIndex, this.previousSelectedNumberIndex)) {
-          if (numbersMatch(clickedNumber, this.previousSelectedNumber)) {
-            this.crossOut(this.previousSelectedNumberIndex, clickedNumberIndex);
-          } else {
-            this.previousSelectedNumberIndex = clickedNumberIndex;
-          }
-        } else {
-          this.previousSelectedNumberIndex = clickedNumberIndex;
-        }
+
+    if (clickedNumber === 0) {
+      return;
+    }
+
+    if (!clickedNumber || clickedNumber < 0 || clickedNumber >= 10) {
+      throw Error(`Unexpected number ${clickedNumber}`);
+    }
+
+    if (this.previousSelectedNumberIndex === undefined) {
+      this.previousSelectedNumberIndex = clickedNumberIndex;
+      return;
+    }
+
+    if (this.previousSelectedNumberIndex === clickedNumberIndex) {
+      this.previousSelectedNumberIndex = undefined;
+    } else if (this.areNeighbors(clickedNumberIndex, this.previousSelectedNumberIndex)) {
+      if (numbersMatch(clickedNumber, this.previousSelectedNumber)) {
+        this.crossOut(this.previousSelectedNumberIndex, clickedNumberIndex);
       } else {
         this.previousSelectedNumberIndex = clickedNumberIndex;
       }
-    } else if (clickedNumber === 0) {
-      // do nothing
     } else {
-      throw Error(`Unexpected number ${clickedNumber}`);
+      this.previousSelectedNumberIndex = clickedNumberIndex;
     }
   }
 
@@ -144,17 +157,9 @@ class Matrix extends React.Component {
     });
   }
 
-  private get canUndo() {
-    return this.positionInHistory > 0;
-  }
-
   @action
   private handleUndo() {
     this.positionInHistory--;
-  }
-
-  private get canRedo() {
-    return this.positionInHistory < this.history.length - 1;
   }
 
   @action
