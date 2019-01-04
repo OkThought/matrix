@@ -50,6 +50,18 @@ const Rules = () => (
       </li>
     </ol>
 
+    <h4>Next level</h4>
+    <p>
+      In the most cases you can't win on the first level. When you can't find
+      any more pairs to cross out, just go to the next level
+      (click <img src="/images/next-level.png"/>).
+
+      It will duplicate
+      all the numbers in the current board except `zeros` and place them to the
+      end of the board. Your history of moves will be lost and you can't go back
+      to the previous level anymore.
+    </p>
+
   </div>
 );
 
