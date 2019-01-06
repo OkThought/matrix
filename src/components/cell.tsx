@@ -13,7 +13,7 @@ interface ICellProps {
 class Cell extends Component<ICellProps> {
   public render() {
     const {selected, crossedOut, onClick, value} = this.props;
-    const buttonClasses = ['Number'];
+    const buttonClasses = ['Cell'];
     if (selected) {
       buttonClasses.push('selected');
     }
