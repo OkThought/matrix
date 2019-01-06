@@ -1,6 +1,8 @@
 import * as React from "react";
 import {Component} from "react";
 
+import "../styles/_cell.sass";
+
 interface ICellProps {
   crossedOut: boolean;
   selected: boolean;

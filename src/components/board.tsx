@@ -2,7 +2,7 @@ import * as React from "react";
 
 import Cell from "./cell";
 
-import "../styles/board.sass";
+import "../styles/_board.sass";
 
 interface IBoardProps {
   numbers: number[][];
