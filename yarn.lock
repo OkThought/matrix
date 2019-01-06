@@ -948,12 +948,12 @@
   resolved "https://registry.yarnpkg.com/@types/q/-/q-1.5.1.tgz#48fd98c1561fe718b61733daed46ff115b496e18"
   integrity sha512-eqz8c/0kwNi/OEHQfvIuJVLTst3in0e7uTKeuY+WL/zfKn0xVujOTp42bS/vUUokhK5P2BppLd9JXMOMHcgbjA==
 
-"@types/react-dom@^15.5.8":
-  version "15.5.8"
-  resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-15.5.8.tgz#e2fe3d95fc443c2dc2786eba99223f4e0eeeac22"
-  integrity sha512-b/01pGMrAGcCfhAKx1y5/kmPoX2lCkDfuAcak/JWN2+Aev3UYcU+P3vqM3EiVeGKj4Lyfj8kyRaz7jF7mwbe4w==
+"@types/react-dom@^16.0.11":
+  version "16.0.11"
+  resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-16.0.11.tgz#bd10ccb0d9260343f4b9a49d4f7a8330a5c1f081"
+  integrity sha512-x6zUx9/42B5Kl2Vl9HlopV8JF64wLpX3c+Pst9kc1HgzrsH+mkehe/zmHMQTplIrR48H2gpU7ZqurQolYu8XBA==
   dependencies:
-    "@types/react" "^15"
+    "@types/react" "*"
 
 "@types/react-router-dom@^4.3.1":
   version "4.3.1"
@@ -972,18 +972,13 @@
     "@types/history" "*"
     "@types/react" "*"
 
-"@types/react@*":
+"@types/react@*", "@types/react@^16.7.18":
   version "16.7.18"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-16.7.18.tgz#f4ce0d539a893dd61e36cd11ae3a5e54f5a48337"
   integrity sha512-Tx4uu3ppK53/iHk6VpamMP3f3ahfDLEVt3ZQc8TFm30a1H3v9lMsCntBREswZIW/SKrvJjkb3Hq8UwO6GREBng==
   dependencies:
     "@types/prop-types" "*"
     csstype "^2.2.0"
-
-"@types/react@^15", "@types/react@^15.6.21":
-  version "15.6.21"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-15.6.21.tgz#86fb19df382be9becee360290948bb3f66808f90"
-  integrity sha512-XpKrM3ohs7pPOWpwPnaAoxbXMI5REcBTZm/c+WTLpfaAoDf99pnQAkTkg6DyPpnkmBbykhowaBd0sHP0+K7n0g==
 
 "@types/sizzle@*":
   version "2.3.2"
