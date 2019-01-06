@@ -2,7 +2,7 @@ import * as React from "react";
 
 import Cell from "./cell";
 
-import * as styles from "../styles/board.sass";
+import "../styles/board.sass";
 
 interface IBoardProps {
   numbers: number[][];
@@ -18,7 +18,7 @@ class Board extends React.Component<IBoardProps> {
 
   public render() {
     return (
-      <div className={styles.Board}>
+      <div className="Board">
         {this.numbers.map((row, rowIndex) => {
           const rowSelected = rowIndex === this.props.previousSelectedNumberRow;
           return (

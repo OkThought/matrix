@@ -2,8 +2,9 @@ import {action, computed, observable} from "mobx";
 import {observer} from "mobx-react";
 import * as React from "react";
 
-import * as styles from "../styles/matrix.sass";
 import Board from "./board";
+
+import "../styles/matrix.sass";
 
 @observer
 class Matrix extends React.Component {
@@ -104,7 +105,7 @@ class Matrix extends React.Component {
               </div>
             </div>
             <div className="col- mt-5">
-              <span className={styles.scoreText}>
+              <span className=".scoreText">
                 {"Crossouts: " + this.crossoutsMade}
               </span>
             </div>
