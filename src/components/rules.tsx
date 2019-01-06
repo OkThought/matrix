@@ -1,11 +1,11 @@
 import * as React from "react";
-import * as classical_board from "./classical_board.png";
-import * as cross_out_horizontal from "./cross_out_horizontal.png";
-import * as cross_out_horizontal_with_zeros from "./cross_out_horizontal_with_zeros.png";
-import * as cross_out_horizontal_with_zeros_next_line from "./cross_out_horizontal_with_zeros_next_line.png";
-import * as cross_out_vertical from "./cross_out_vertical.png";
-import * as cross_out_vertical_with_zeros from "./cross_out_vertical_with_zeros.png";
-import * as next_level from "./next_level.png";
+import * as classical_board from "../assets/images/classical_board.png";
+import * as cross_out_horizontal from "../assets/images/cross_out_horizontal.png";
+import * as cross_out_horizontal_with_zeros from "../assets/images/cross_out_horizontal_with_zeros.png";
+import * as cross_out_horizontal_with_zeros_next_line from "../assets/images/cross_out_horizontal_with_zeros_next_line.png";
+import * as cross_out_vertical from "../assets/images/cross_out_vertical.png";
+import * as cross_out_vertical_with_zeros from "../assets/images/cross_out_vertical_with_zeros.png";
+import * as next_level from "../assets/images/next_level.png";
 
 const Rules = () => (
   <div>

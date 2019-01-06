@@ -1,8 +1,8 @@
 import * as React from "react";
 
-import Cell from "./cell/cell";
+import Cell from "./cell";
 
-import * as styles from "./board.sass";
+import * as styles from "../styles/board.sass";
 
 interface IBoardProps {
   numbers: number[][];
