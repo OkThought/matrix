@@ -10,7 +10,7 @@ import './styles/styles.sass';
 
 const root = document.getElementById('root');
 const Index = () => (
-  <div className='.Index'>
+  <div className='Index'>
     <BrowserRouter basename="matrix">
       <div className="container">
         <div className="row">

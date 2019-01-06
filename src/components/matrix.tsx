@@ -110,7 +110,7 @@ class Matrix extends React.Component {
               </div>
             </div>
             <div className="col- mt-5">
-              <span className=".scoreText">
+              <span className="scoreText">
                 {"Crossouts: " + this.crossoutsMade}
               </span>
             </div>
