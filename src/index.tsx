@@ -15,7 +15,7 @@ const Index = () => (
       <div className="container">
         <div className="row">
           <div className="col-">
-            <nav className="navbar collapse navbar-collapse navbar-light justify-content-md-center">
+            <nav className="navbar navbar-collapse navbar-light justify-content-md-center">
               <ul className="navbar-nav flex-column">
                 <li className="nav-item">
                   <Link className="nav-link" to="/">Home</Link>
