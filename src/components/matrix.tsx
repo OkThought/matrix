@@ -16,7 +16,7 @@ class Matrix extends React.Component {
   private positionInHistory: number = 0;
 
   @observable
-  private previousSelectedNumberIndex: number;
+  private previousSelectedNumberIndex?: number;
 
   @observable
   private crossoutsMade: number = 0;
@@ -38,7 +38,8 @@ class Matrix extends React.Component {
 
   @computed
   private get previousSelectedNumber() {
-    if (this.previousSelectedNumberIndex >= 0 &&
+    if (this.previousSelectedNumberIndex &&
+        this.previousSelectedNumberIndex >= 0 &&
         this.previousSelectedNumberIndex < this.numbers.length) {
       return this.numbers[this.previousSelectedNumberIndex];
     }
@@ -47,12 +48,18 @@ class Matrix extends React.Component {
 
   @computed
   private get previousSelectedNumberRow() {
-    return Math.floor(this.previousSelectedNumberIndex / BOARD_WIDTH);
+    return (
+      this.previousSelectedNumberIndex &&
+      Math.floor(this.previousSelectedNumberIndex / BOARD_WIDTH)
+    );
   }
 
   @computed
   private get previousSelectedNumberCol() {
-    return this.previousSelectedNumberIndex % BOARD_WIDTH;
+    return (
+      this.previousSelectedNumberIndex &&
+      this.previousSelectedNumberIndex % BOARD_WIDTH
+    );
   }
 
   private get canUndo() {
@@ -116,7 +123,7 @@ class Matrix extends React.Component {
   }
 
   @action
-  private handleNumberClick(row, col) {
+  private handleNumberClick(row: number, col: number) {
     const clickedNumberIndex = row * BOARD_WIDTH + col;
     const clickedNumber = this.numbers[clickedNumberIndex];
 
@@ -206,7 +213,7 @@ class Matrix extends React.Component {
   }
 
   private neighbors(index: number) {
-    const neighbors = [];
+    const neighbors: number[] = [];
     [-BOARD_WIDTH, -1, +1, +BOARD_WIDTH].forEach((offset) => {
       let i = index;
       while (true) {
@@ -232,8 +239,8 @@ const INITIAL_BOARD = [
   5, 1, 6, 1, 7, 1, 8, 1, 9,
 ];
 
-function numbersMatch(a, b) {
-  return a + b === BOARD_WIDTH + 1 || a === b;
+function numbersMatch(a?: number, b?: number) {
+  return a && b && a + b === BOARD_WIDTH + 1 || a === b;
 }
 
 export default Matrix;

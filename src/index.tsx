@@ -1,17 +1,17 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import {BrowserRouter as Router, Link, Route} from "react-router-dom";
+import {BrowserRouter, Link, Route} from "react-router-dom";
 
 import Home from "./components/home";
 import Matrix from "./components/matrix";
 import Rules from "./components/rules";
 
-import * as styles from './styles/index.sass';
+import './styles/index.sass';
 
 const root = document.getElementById('root');
 const Index = () => (
-  <div className={styles.Index}>
-    <Router basename="matrix">
+  <div className='.Index'>
+    <BrowserRouter basename="matrix">
       <div className="container">
         <div className="row">
           <div className="col-">
@@ -38,7 +38,7 @@ const Index = () => (
           </div>
         </div>
       </div>
-    </Router>
+    </BrowserRouter>
   </div>
 );
 
