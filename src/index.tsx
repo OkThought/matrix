@@ -6,7 +6,7 @@ import Home from "./components/home";
 import Matrix from "./components/matrix";
 import Rules from "./components/rules";
 
-import './styles/index.sass';
+import './styles/styles.sass';
 
 const root = document.getElementById('root');
 const Index = () => (

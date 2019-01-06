@@ -4,8 +4,6 @@ import * as React from "react";
 
 import Board from "./board";
 
-import "../styles/_matrix.sass";
-
 @observer
 class Matrix extends React.Component {
 

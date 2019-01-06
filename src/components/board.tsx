@@ -2,8 +2,6 @@ import * as React from "react";
 
 import Cell from "./cell";
 
-import "../styles/_board.sass";
-
 interface IBoardProps {
   numbers: number[][];
   onCellClick: (row: number, col: number) => void;
