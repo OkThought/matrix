@@ -1,0 +1,28 @@
+@import '~bootstrap/scss/bootstrap';
+@import '~bootstrap/scss/variables';
+
+$color-primary-0: #05550B;	// Main Primary color */
+$color-primary-1: #00D80E;
+$color-primary-2: #089111;
+$color-primary-3: #09330C;
+$color-primary-4: #041305;
+
+$lightest:      $color-primary-1;
+$lighter:       $color-primary-2;
+$light:         $color-primary-0;
+$primary:       $lighter;
+$secondary:     $light;
+$dark:          $color-primary-3;
+$darkest:       $color-primary-4;
+
+$my-theme-colors: (
+        "lightest":   $lightest,
+        "lighter":    $lighter,
+        "light":      $light,
+        "dark":       $dark,
+        "darkest":    $darkest,
+        "primary":    $primary,
+        "secondary":  $secondary,
+);
+
+$theme-colors: map-merge($theme-colors, $my-theme-colors)
