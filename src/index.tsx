@@ -1,10 +1,12 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import {BrowserRouter as Router, Link, Route} from "react-router-dom";
+
 import Matrix from "./game/matrix";
 import Home from "./home/home";
 import Rules from "./rules/rules";
-import * as styles from './styles.css';
+
+import * as styles from './index.sass';
 
 const root = document.getElementById('root');
 const Index = () => (
