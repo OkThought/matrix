@@ -78,24 +78,24 @@ class Matrix extends React.Component {
             <div className="col d-flex flex-column align-items-center">
               <div className="btn-group" role="group">
                 <button type="button"
-                        className="btn btn-primary-lightest"
+                        className="btn btn-control"
                         onClick={() => this.handleReset()}>
                   Reset
                 </button>
                 <button type="button"
-                        className="btn btn-primary-lightest"
+                        className="btn btn-control"
                         onClick={() => this.handleUndo()}
                         disabled={!this.canUndo}>
                   Undo
                 </button>
                 <button type="button"
-                        className="btn btn-primary-lightest"
+                        className="btn btn-control"
                         onClick={() => this.handleRedo()}
                         disabled={!this.canRedo}>
                   Redo
                 </button>
                 <button type="button"
-                        className="btn btn-primary-lightest"
+                        className="btn btn-control"
                         onClick={() => this.handleNextLevel()}>
                   Next Level
                 </button>

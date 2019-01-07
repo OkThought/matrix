@@ -1,0 +1,29 @@
+@import 'colors'
+
+.btn-control
+  background: none
+  border: none
+  color: $primary
+
+  &:focus
+    outline: none
+    box-shadow: none
+
+  &:hover:not(:disabled):not(.disabled)
+    background: none
+    color: $primary
+    text-shadow: 0 0 1px $primary-light
+    border: none
+
+  // Disabled comes first so active can properly restyle
+  &.disabled,
+  &:disabled
+    background: none
+    color: $primary-lighter
+
+  &:not(:disabled):not(.disabled):active,
+  &:not(:disabled):not(.disabled).active
+    outline: none
+    box-shadow: none
+    transform: translateY(2px)
+
