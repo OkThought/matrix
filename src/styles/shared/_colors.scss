@@ -1,28 +1,43 @@
 @import '~bootstrap/scss/bootstrap';
 @import '~bootstrap/scss/variables';
 
-$color-primary-0: #05550B;	// Main Primary color */
-$color-primary-1: #00D80E;
-$color-primary-2: #089111;
-$color-primary-3: #09330C;
-$color-primary-4: #041305;
+$primary-lightest: #bed0bb;
+$primary-lighter: #7bd87e;
+$primary-light: #65945d;
+$primary: #09630d;
+$primary-dark: #09330C;
+$primary-darker: #052c05;
+$primary-darkest: #041305;
 
-$lightest:      $color-primary-1;
-$lighter:       $color-primary-2;
-$light:         $color-primary-0;
-$primary:       $lighter;
-$secondary:     $light;
-$dark:          $color-primary-3;
-$darkest:       $color-primary-4;
-
-$my-theme-colors: (
-        "lightest":   $lightest,
-        "lighter":    $lighter,
-        "light":      $light,
-        "dark":       $dark,
-        "darkest":    $darkest,
-        "primary":    $primary,
-        "secondary":  $secondary,
+$primary-colors: (
+        "lightest": $primary-lightest,
+        "lighter": $primary-lighter,
+        "light": $primary-light,
+        "primary": $primary,
+        "dark": $primary-dark,
+        "darker": $primary-darker,
+        "darkest": $primary-darkest,
 );
 
-$theme-colors: map-merge($theme-colors, $my-theme-colors)
+$secondary-lightest: #e0e5e3;
+$secondary-lighter: #abb0ae;
+$secondary-light: #7c817f;
+$secondary: #545957;
+$secondary-dark: #373d3b;
+$secondary-darker: #252d2b;
+$secondary-darkest: #161d1b;
+
+$secondary-colors: (
+"lightest": $secondary-lightest,
+"lighter": $secondary-lighter,
+"light": $secondary-light,
+"secondary": $secondary,
+"dark": $secondary-dark,
+"darker": $secondary-darker,
+"darkest": $secondary-darkest,
+);
+
+$primary-and-secondary-colors: map_merge($primary-colors, $secondary-colors);
+
+$colors: map-merge($colors, $primary-colors);
+$theme-colors: map-merge($theme-colors, $secondary-colors);

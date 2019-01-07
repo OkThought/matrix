@@ -1,12 +1,28 @@
+@import '../shared'
+
 .Cell
-  @extend .btn, .btn-dark, .btn-sm, .rounded-0
+  background: rgba(111, 143, 93, 0.1)
+  color: $primary-light
+  font-weight: lighter
   width: 30px
-  color: #2cc800
+  border: none
+  z-index: 5
+  cursor: pointer
+
+  &:hover:not(.crossedOut):not(.selected)
+    background-color: rgba(111, 143, 93, 0.23)
+    color: $primary-light
+    font-weight: bold
+
+  &:focus
+    outline: none
 
   &.selected
-    background-color: #1d2124
-    color: #a0bec5
+    background-color: rgba(111, 143, 93, 0.27)
+    color: $primary-light
+    font-weight: bold
 
   &.crossedOut
-    background-color: #1b1f22!important
-    color: #2c3033!important
+    background: rgba(111, 143, 93, 0.15)
+    color: $primary-lightest
+    cursor: unset
