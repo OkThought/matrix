@@ -5,7 +5,12 @@
     "no-console": false,
     "no-trailing-whitespace": false,
     "no-bitwise": false,
-    "forin": false
+    "forin": false,
+    "no-empty": false,
+    "member-ordering": false,
+    "trailing-comma": false,
+    "object-literal-sort-keys": false,
+    "semicolon": false
   },
   "jsRules": {
     "quotemark": false

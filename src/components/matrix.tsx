@@ -1,4 +1,5 @@
-import {action, computed, observable} from "mobx";
+import $ from "jquery";
+import {action, computed, observable, observe} from "mobx";
 import {observer} from "mobx-react";
 import * as React from "react";
 
@@ -6,18 +7,6 @@ import Board from "./board";
 
 @observer
 class Matrix extends React.Component {
-
-  @observable
-  private history: number[][] = [[...INITIAL_BOARD]];
-
-  @observable
-  private positionInHistory: number = 0;
-
-  @observable
-  private previousSelectedNumberIndex?: number;
-
-  @observable
-  private crossoutsMade: number = 0;
 
   @computed
   private get numbers() {
@@ -68,6 +57,35 @@ class Matrix extends React.Component {
     return this.positionInHistory < this.history.length - 1;
   }
 
+  @observable
+  private history: number[][] = [[...INITIAL_BOARD]];
+
+  @observable
+  private positionInHistory: number = 0;
+
+  @observable
+  private previousSelectedNumberIndex?: number;
+
+  @observable
+  private crossoutsMade: number = 0;
+
+  public componentDidMount(): void {
+    if (super.componentDidMount) {
+      super.componentDidMount();
+    }
+
+    observe(this, 'crossoutsMade',  () => {
+      const scoreText = $('.scoreText');
+      if (scoreText.hasClass('animation2')) {
+        scoreText.addClass('animation1')
+        scoreText.removeClass('animation2')
+      } else {
+        scoreText.addClass('animation2')
+        scoreText.removeClass('animation1')
+      }
+    });
+  }
+
   public render() {
     return (
       <div className="d-flex justify-content-center">
@@ -110,9 +128,9 @@ class Matrix extends React.Component {
               </div>
             </div>
             <div className="col- mt-5">
-              <span className="scoreText">
+              <p className="scoreText">
                 {"Crossouts: " + this.crossoutsMade}
-              </span>
+              </p>
             </div>
           </div>
         </div>
