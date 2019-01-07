@@ -25,7 +25,7 @@ class Matrix extends React.Component {
 
   @computed
   private get previousSelectedNumber() {
-    if (this.previousSelectedNumberIndex &&
+    if (this.previousSelectedNumberIndex !== undefined &&
         this.previousSelectedNumberIndex >= 0 &&
         this.previousSelectedNumberIndex < this.numbers.length) {
       return this.numbers[this.previousSelectedNumberIndex];
