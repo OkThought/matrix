@@ -10,13 +10,13 @@ $primary-darker: #052c05;
 $primary-darkest: #041305;
 
 $primary-colors: (
-        "lightest": $primary-lightest,
-        "lighter": $primary-lighter,
-        "light": $primary-light,
-        "primary": $primary,
-        "dark": $primary-dark,
-        "darker": $primary-darker,
-        "darkest": $primary-darkest,
+  "primary-lightest": $primary-lightest,
+  "primary-lighter": $primary-lighter,
+  "primary-light": $primary-light,
+  "primary": $primary,
+  "primary-dark": $primary-dark,
+  "primary-darker": $primary-darker,
+  "primary-darkest": $primary-darkest,
 );
 
 $secondary-lightest: #e0e5e3;
@@ -28,16 +28,16 @@ $secondary-darker: #252d2b;
 $secondary-darkest: #161d1b;
 
 $secondary-colors: (
-"lightest": $secondary-lightest,
-"lighter": $secondary-lighter,
-"light": $secondary-light,
-"secondary": $secondary,
-"dark": $secondary-dark,
-"darker": $secondary-darker,
-"darkest": $secondary-darkest,
+  "secondary-lightest": $secondary-lightest,
+  "secondary-lighter": $secondary-lighter,
+  "secondary-light": $secondary-light,
+  "secondary": $secondary,
+  "secondary-dark": $secondary-dark,
+  "secondary-darker": $secondary-darker,
+  "secondary-darkest": $secondary-darkest,
 );
 
 $primary-and-secondary-colors: map_merge($primary-colors, $secondary-colors);
 
-$colors: map-merge($colors, $primary-colors);
-$theme-colors: map-merge($theme-colors, $secondary-colors);
+$colors: map-merge($colors, $primary-and-secondary-colors);
+$theme-colors: map-merge($theme-colors, $primary-and-secondary-colors);
