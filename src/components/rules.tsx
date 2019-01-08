@@ -28,14 +28,14 @@ const Rules = () => (
           <h2>Game rules</h2>
         </section>
 
-        <section id="board">
+        <section id="board" className="mt-2">
           <h4>Board</h4>
           <p>
             The classical board looks like this:
           </p>
-          <img src={classical_board} alt="classical_board"/>
+          <img src={classical_board} alt="classical_board" className="classical_board"/>
         </section>
-        <section id="goal">
+        <section id="goal" className="mt-3">
           <h4>Goal</h4>
           <p>
             The goal is to cross out all the numbers, so that the game board is empty
@@ -58,23 +58,23 @@ const Rules = () => (
               They go one after another (from <b>left</b> to <b>right</b>,
               from <b>top</b> to <b>bottom</b>):
               <br/>
-              <img src={cross_out_horizontal} alt="cross_out_horizontal"/>
+              <img src={cross_out_horizontal} alt="cross_out_horizontal" className="cross_out_horizontal"/>
               <br/>
               There can be any number of `zeros` between them:
               <br/>
-              <img src={cross_out_horizontal_with_zeros} alt="cross_out_horizontal_with_zeros"/>
+              <img src={cross_out_horizontal_with_zeros} alt="cross_out_horizontal_with_zeros" className="cross_out_horizontal_with_zeros"/>
               <br/>
               The second one can even be one the next line:
               <br/>
-              <img src={cross_out_horizontal_with_zeros_next_line} alt="cross_out_horizontal_with_zeros_next_line"/>
+              <img src={cross_out_horizontal_with_zeros_next_line} alt="cross_out_horizontal_with_zeros_next_line" className="cross_out_horizontal_with_zeros_next_line"/>
             </li>
             <li>
               They lie vertically next to each other:<br/>
-              <img src={cross_out_vertical} alt="cross_out_vertical"/>
+              <img src={cross_out_vertical} alt="cross_out_vertical" className="cross_out_vertical"/>
               <br/>
               There can be any number of `zeros` between them:
               <br/>
-              <img src={cross_out_vertical_with_zeros} alt="cross_out_vertical_with_zeros"/>
+              <img src={cross_out_vertical_with_zeros} alt="cross_out_vertical_with_zeros" className="cross_out_vertical_with_zeros"/>
             </li>
           </ol>
         </section>
@@ -84,7 +84,7 @@ const Rules = () => (
           <p>
             In the most cases you can't win on the first level. When you can't find
             any more pairs to cross out, just go to the next level
-            (click <img src={next_level} alt="next_level"/>).
+            (click <span><img src={next_level} alt="next_level" className="next_level"/></span>).
 
             It will duplicate
             all the numbers in the current board except `zeros` and place them to the
