@@ -1,23 +1,12 @@
-import {action, computed, observable} from "mobx";
+import $ from "jquery";
+import {action, computed, observable, observe} from "mobx";
 import {observer} from "mobx-react";
 import * as React from "react";
+
 import Board from "./board";
-import * as styles from "./matrix.module.css";
 
 @observer
 class Matrix extends React.Component {
-
-  @observable
-  private history: number[][] = [[...INITIAL_BOARD]];
-
-  @observable
-  private positionInHistory: number = 0;
-
-  @observable
-  private previousSelectedNumberIndex: number;
-
-  @observable
-  private crossoutsMade: number = 0;
 
   @computed
   private get numbers() {
@@ -36,7 +25,8 @@ class Matrix extends React.Component {
 
   @computed
   private get previousSelectedNumber() {
-    if (this.previousSelectedNumberIndex >= 0 &&
+    if (this.previousSelectedNumberIndex !== undefined &&
+        this.previousSelectedNumberIndex >= 0 &&
         this.previousSelectedNumberIndex < this.numbers.length) {
       return this.numbers[this.previousSelectedNumberIndex];
     }
@@ -45,12 +35,18 @@ class Matrix extends React.Component {
 
   @computed
   private get previousSelectedNumberRow() {
-    return Math.floor(this.previousSelectedNumberIndex / BOARD_WIDTH);
+    return (
+      this.previousSelectedNumberIndex &&
+      Math.floor(this.previousSelectedNumberIndex / BOARD_WIDTH)
+    );
   }
 
   @computed
   private get previousSelectedNumberCol() {
-    return this.previousSelectedNumberIndex % BOARD_WIDTH;
+    return (
+      this.previousSelectedNumberIndex &&
+      this.previousSelectedNumberIndex % BOARD_WIDTH
+    );
   }
 
   private get canUndo() {
@@ -61,60 +57,75 @@ class Matrix extends React.Component {
     return this.positionInHistory < this.history.length - 1;
   }
 
+  @observable
+  private history: number[][] = [[...INITIAL_BOARD]];
+
+  @observable
+  private positionInHistory: number = 0;
+
+  @observable
+  private previousSelectedNumberIndex?: number;
+
+  @observable
+  private crossoutsMade: number = 0;
+
+  public componentDidMount(): void {
+    if (super.componentDidMount) {
+      super.componentDidMount();
+    }
+
+    observe(this, 'crossoutsMade',  () => {
+      const scoreText = $('.scoreText');
+      if (scoreText.hasClass('animation2')) {
+        scoreText.addClass('animation1')
+        scoreText.removeClass('animation2')
+      } else {
+        scoreText.addClass('animation2')
+        scoreText.removeClass('animation1')
+      }
+    });
+  }
+
   public render() {
     return (
-      <div className="d-flex justify-content-center">
-        <div className="d-flex flex-column align-items-center">
-          <div className="h1">Matrix</div>
-
-          <div className="row mt-2">
-            <div className="col d-flex flex-column align-items-center">
-              <div className="btn-group" role="group">
-                <button type="button"
-                        className="btn btn-secondary"
-                        onClick={() => this.handleReset()}>
-                  Reset
-                </button>
-                <button type="button"
-                        className="btn btn-secondary"
-                        onClick={() => this.handleUndo()}
-                        disabled={!this.canUndo}>
-                  Undo
-                </button>
-                <button type="button"
-                        className="btn btn-secondary"
-                        onClick={() => this.handleRedo()}
-                        disabled={!this.canRedo}>
-                  Redo
-                </button>
-                <button type="button"
-                        className="btn btn-secondary"
-                        onClick={() => this.handleNextLevel()}>
-                  Next Level
-                </button>
-              </div>
-              <div className="mt-1">
-                <Board numbers={this.numbersTable}
-                       previousSelectedNumberRow={this.previousSelectedNumberRow}
-                       previousSelectedNumberCol={this.previousSelectedNumberCol}
-                       onNumberClick={(row, col) =>
-                         this.handleNumberClick(row, col)
-                       }/>
-              </div>
-            </div>
-            <div className="col- mt-5">
-              <span className={styles.scoreText}>
-                {"Crossouts: " + this.crossoutsMade}
-              </span>
-            </div>
+      <div className="d-flex flex-column align-items-center">
+        <div className="mt-2 sticky-top d-flex flex-column align-items-center">
+          <div className="btn-group" role="group">
+            <button className="btn btn-control"
+                    onClick={() => this.handleReset()}>
+              Reset
+            </button>
+            <button className="btn btn-control"
+                    onClick={() => this.handleUndo()}
+                    disabled={!this.canUndo}>
+              Undo
+            </button>
+            <button className="btn btn-control"
+                    onClick={() => this.handleRedo()}
+                    disabled={!this.canRedo}>
+              Redo
+            </button>
+            <button className="btn btn-control"
+                    onClick={() => this.handleNextLevel()}>
+              Next Level
+            </button>
           </div>
+          <p className="scoreText">Crossouts: {this.crossoutsMade}</p>
         </div>
+        {/*<div className="overflow-scroll">*/}
+          <Board numbers={this.numbersTable}
+                 previousSelectedNumberRow={this.previousSelectedNumberRow}
+                 previousSelectedNumberCol={this.previousSelectedNumberCol}
+                 onCellClick={(row, col) =>
+                   this.handleNumberClick(row, col)
+                 }/>
+        {/*</div>*/}
       </div>
     );
   }
 
   @action
-  private handleNumberClick(row, col) {
+  private handleNumberClick(row: number, col: number) {
     const clickedNumberIndex = row * BOARD_WIDTH + col;
     const clickedNumber = this.numbers[clickedNumberIndex];
 
@@ -204,7 +215,7 @@ class Matrix extends React.Component {
   }
 
   private neighbors(index: number) {
-    const neighbors = [];
+    const neighbors: number[] = [];
     [-BOARD_WIDTH, -1, +1, +BOARD_WIDTH].forEach((offset) => {
       let i = index;
       while (true) {
@@ -230,8 +241,8 @@ const INITIAL_BOARD = [
   5, 1, 6, 1, 7, 1, 8, 1, 9,
 ];
 
-function numbersMatch(a, b) {
-  return a + b === BOARD_WIDTH + 1 || a === b;
+function numbersMatch(a?: number, b?: number) {
+  return a && b && a + b === BOARD_WIDTH + 1 || a === b;
 }
 
 export default Matrix;

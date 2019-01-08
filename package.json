@@ -4,29 +4,46 @@
   "homepage": "https://OkThought.github.io/matrix/",
   "repository": "https://github.com/OkThought/matrix",
   "scripts": {
-    "build": "react-scripts-ts build",
-    "start": "react-scripts-ts start",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "watch": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
+  "main": "src/index.tsx",
+  "author": "OkThought <bogush.vano@gmail.com>",
+  "license": "MIT",
+  "private": false,
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
   "devDependencies": {
-    "@types/react": "^15.0.39",
-    "@types/react-dom": "^15.5.1",
+    "@types/bootstrap": "^4.2.0",
+    "@types/jest": "^23.3.11",
+    "@types/node": "^10.12.18",
+    "@types/node-sass": "^3.10.32",
+    "@types/react": "^16.7.18",
+    "@types/react-dom": "^16.0.11",
     "@types/react-router-dom": "^4.3.1",
     "awesome-typescript-loader": "^3.2.1",
+    "css-loader": "^2.1.0",
     "gh-pages": "^1.2.0",
-    "react-scripts-ts": "^2.17.0",
-    "tslint": "^5.11.0",
-    "typescript": "^2.9.2",
-    "webpack": "^3.0.0",
-    "webpack-dev-server": "^2.6.1"
+    "node-sass": "^4.11.0",
+    "sass-loader": "^7.1.0",
+    "tslint": "^5.12.0",
+    "typescript": "^2.9.2"
   },
   "dependencies": {
+    "bootstrap": "^4.2.1",
+    "jquery": "^3.3.1",
     "mobx": "^3.6.2",
     "mobx-react": "^4.4.3",
     "mobx-react-devtools": "^4.2.15",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
-    "react-router-dom": "^4.3.1"
+    "react-router-dom": "^4.3.1",
+    "react-scripts": "^2.1.2"
   }
 }
