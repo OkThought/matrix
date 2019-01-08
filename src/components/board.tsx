@@ -16,11 +16,11 @@ class Board extends React.Component<IBoardProps> {
 
   public render() {
     return (
-      <div className="Board">
+      <div className="Board overflow-scroll">
         {this.numbers.map((row, rowIndex) => {
           const rowSelected = rowIndex === this.props.previousSelectedNumberRow;
           return (
-            <div className="row" key={rowIndex}>
+            <div className="row flex-nowrap mx-0" key={rowIndex}>
               {row.map((theNumber, colIndex) => {
                 const selected = rowSelected && colIndex === this.props.previousSelectedNumberCol;
                 const crossedOut = !selected && theNumber === 0;

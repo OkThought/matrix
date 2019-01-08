@@ -88,52 +88,38 @@ class Matrix extends React.Component {
 
   public render() {
     return (
-      <div className="d-flex justify-content-center">
-        <div className="d-flex flex-column align-items-center">
-          <div className="h1">Matrix</div>
-
-          <div className="row mt-2">
-            <div className="col d-flex flex-column align-items-center">
-              <div className="btn-group" role="group">
-                <button type="button"
-                        className="btn btn-control"
-                        onClick={() => this.handleReset()}>
-                  Reset
-                </button>
-                <button type="button"
-                        className="btn btn-control"
-                        onClick={() => this.handleUndo()}
-                        disabled={!this.canUndo}>
-                  Undo
-                </button>
-                <button type="button"
-                        className="btn btn-control"
-                        onClick={() => this.handleRedo()}
-                        disabled={!this.canRedo}>
-                  Redo
-                </button>
-                <button type="button"
-                        className="btn btn-control"
-                        onClick={() => this.handleNextLevel()}>
-                  Next Level
-                </button>
-              </div>
-              <div className="mt-1">
-                <Board numbers={this.numbersTable}
-                       previousSelectedNumberRow={this.previousSelectedNumberRow}
-                       previousSelectedNumberCol={this.previousSelectedNumberCol}
-                       onCellClick={(row, col) =>
-                         this.handleNumberClick(row, col)
-                       }/>
-              </div>
-            </div>
-            <div className="col- mt-5">
-              <p className="scoreText">
-                {"Crossouts: " + this.crossoutsMade}
-              </p>
-            </div>
+      <div className="d-flex flex-column align-items-center">
+        <div className="mt-2 sticky-top d-flex flex-column align-items-center">
+          <div className="btn-group" role="group">
+            <button className="btn btn-control"
+                    onClick={() => this.handleReset()}>
+              Reset
+            </button>
+            <button className="btn btn-control"
+                    onClick={() => this.handleUndo()}
+                    disabled={!this.canUndo}>
+              Undo
+            </button>
+            <button className="btn btn-control"
+                    onClick={() => this.handleRedo()}
+                    disabled={!this.canRedo}>
+              Redo
+            </button>
+            <button className="btn btn-control"
+                    onClick={() => this.handleNextLevel()}>
+              Next Level
+            </button>
           </div>
+          <p className="scoreText">Crossouts: {this.crossoutsMade}</p>
         </div>
+        {/*<div className="overflow-scroll">*/}
+          <Board numbers={this.numbersTable}
+                 previousSelectedNumberRow={this.previousSelectedNumberRow}
+                 previousSelectedNumberCol={this.previousSelectedNumberCol}
+                 onCellClick={(row, col) =>
+                   this.handleNumberClick(row, col)
+                 }/>
+        {/*</div>*/}
       </div>
     );
   }
