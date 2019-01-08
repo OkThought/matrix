@@ -15,18 +15,16 @@ const Index = () => (
   <BrowserRouter basename="matrix">
     <div className='Index h-100'>
       <nav className="navbar sticky-top navbar-expand-sm navbar-dark bg-dark">
-        <nav className="pl-4 container navbar-nav justify-content-start">
-          <Link className="nav-item nav-link" to="/">Home</Link>
+        <nav className="container navbar-nav justify-content-start">
+          <Link className="navbar-brand nav-item nav-link" to="/">Matrix</Link>
           <Link className="nav-item nav-link" to="/game/">Play</Link>
           <Link className="nav-item nav-link" to="/rules/">Rules</Link>
         </nav>
       </nav>
       <div role="main" className="container">
-        <div className="container">
-          <Route path="/" exact component={Home}/>
-          <Route path="/game/" exact component={Matrix}/>
-          <Route path="/rules/" exact component={Rules}/>
-        </div>
+        <Route path="/" exact component={Home}/>
+        <Route path="/game/" exact component={Matrix}/>
+        <Route path="/rules/" exact component={Rules}/>
       </div>
     </div>
   </BrowserRouter>
