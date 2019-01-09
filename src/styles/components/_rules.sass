@@ -2,7 +2,20 @@
   height: calc(100vh - 56px)
   overflow-y: scroll
 
+@media (max-width: 576px)
+  .rulesNavContainer
+    flex-direction: row !important
+    max-width: 100% !important
+    flex-basis: 100% !important
+    .navbar-nav
+      margin-left: 0 !important
+      flex-direction: row !important
+      .nav-link
+        padding-left: 3px
+        padding-right: 3px
+
 #rulesNav
+  padding-left: 0
   top: 75px
 
 .classical_board

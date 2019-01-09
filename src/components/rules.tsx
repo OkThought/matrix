@@ -9,7 +9,7 @@ import next_level from "../assets/images/next_level.png";
 
 const Rules = () => (
   <div className="row">
-    <div className="col-3">
+    <div className="rulesNavContainer col-3">
       <nav id="rulesNav" className="navbar navbar-light sticky-top">
         <nav className="navbar-nav flex-column">
           <a className="nav-link" href="#gameRules">Game Rules</a>
@@ -22,7 +22,7 @@ const Rules = () => (
         </nav>
       </nav>
     </div>
-    <div className="col">
+    <div className="rulesContainer col">
       <div className="Rules" data-spy="scroll" data-target="#rulesNav">
         <section id="gameRules" className="pt-4">
           <h2>Game rules</h2>
