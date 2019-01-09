@@ -4,8 +4,8 @@ self.__precacheManifest = [
     "url": "/matrix/static/media/cross_out_horizontal_with_zeros.40baaec5.png"
   },
   {
-    "revision": "89a49d4062f59a5f4834",
-    "url": "/matrix/static/css/main.01b2bbff.chunk.css"
+    "revision": "46159dbe86e8a9066fe7",
+    "url": "/matrix/static/css/main.ba6e40e6.chunk.css"
   },
   {
     "revision": "65b74a243fbd49313fbe",
@@ -24,8 +24,8 @@ self.__precacheManifest = [
     "url": "/matrix/static/media/cross_out_horizontal.bdebbf05.png"
   },
   {
-    "revision": "89a49d4062f59a5f4834",
-    "url": "/matrix/static/js/main.89a49d40.chunk.js"
+    "revision": "46159dbe86e8a9066fe7",
+    "url": "/matrix/static/js/main.46159dbe.chunk.js"
   },
   {
     "revision": "121655423ab6010d238fc1e88a5d74b9",
@@ -44,7 +44,7 @@ self.__precacheManifest = [
     "url": "/matrix/static/media/next_level.11064122.png"
   },
   {
-    "revision": "5c9dd8a6b20f8a0f017536e4ea70980e",
+    "revision": "aa79910cdf3fff53af961a8e59a63744",
     "url": "/matrix/index.html"
   }
 ];
