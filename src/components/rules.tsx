@@ -9,7 +9,7 @@ import next_level from "../assets/images/next_level.png";
 
 const Rules = () => (
   <div className="row">
-    <div className="rulesNavContainer col-3">
+    <div className="rulesNavContainer col-3 sticky-top">
       <nav id="rulesNav" className="navbar navbar-light sticky-top">
         <nav className="navbar-nav flex-column">
           <a className="nav-link" href="#gameRules">Game Rules</a>

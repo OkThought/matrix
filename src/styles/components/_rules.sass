@@ -1,22 +1,37 @@
-.Rules
-  height: calc(100vh - 56px)
-  overflow-y: scroll
-
-@media (max-width: 576px)
+@media screen and (max-width: 576px)
   .rulesNavContainer
     flex-direction: row !important
-    max-width: 100% !important
-    flex-basis: 100% !important
+    max-width: 100%
+    flex-basis: 100%
+    top: $index-nav-height
+    background: $primary-lightest
     .navbar-nav
       margin-left: 0 !important
       flex-direction: row !important
+      flex-wrap: wrap
       .nav-link
-        padding-left: 3px
-        padding-right: 3px
+        padding-left: 4px
+        padding-right: 4px
 
-#rulesNav
-  padding-left: 0
-  top: 75px
+  #rulesNav
+    top: 0
+    padding-left: 0
+    padding-right: 0
+
+  $rules-nav-height: 56px
+  .Rules
+    height: calc(100vh - #{$index-nav-height} - #{$rules-nav-height})
+    overflow-y: scroll
+
+@media screen and (min-width: 576px)
+  .Rules
+    padding-top: 10px
+    height: calc(100vh - #{$index-nav-height})
+    overflow-y: scroll
+
+  #rulesNav
+    padding-left: 0
+    top: $index-nav-height
 
 .classical_board
   width: 9 * 30px
