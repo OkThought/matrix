@@ -4,9 +4,9 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import {BrowserRouter, Link, Route} from "react-router-dom";
 
-import Home from "./components/home";
-import Matrix from "./components/matrix";
-import Rules from "./components/rules";
+import GameComponent from "./modules/game/components/GameComponent";
+import HomeComponent from "./modules/home/components/HomeComponent";
+import Rules from "./modules/rules/components/RulesComponent";
 
 import './styles/styles.sass';
 
@@ -28,8 +28,8 @@ const Index = () => (
         </div>
       </nav>
       <div role="main" className="container">
-        <Route path="/" exact component={Home}/>
-        <Route path="/game/" exact component={Matrix}/>
+        <Route path="/" exact component={HomeComponent}/>
+        <Route path="/game/" exact component={GameComponent}/>
         <Route path="/rules/" exact component={Rules}/>
       </div>
     </div>

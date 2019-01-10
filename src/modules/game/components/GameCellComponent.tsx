@@ -8,10 +8,10 @@ interface ICellProps {
   value: string;
 }
 
-class Cell extends Component<ICellProps> {
+class GameCellComponent extends Component<ICellProps> {
   public render() {
     const {selected, crossedOut, onClick, value} = this.props;
-    const buttonClasses = ['Cell'];
+    const buttonClasses = ['GameCellComponent'];
     if (selected) {
       buttonClasses.push('selected');
     }
@@ -29,4 +29,4 @@ class Cell extends Component<ICellProps> {
   }
 }
 
-export default Cell;
+export default GameCellComponent;

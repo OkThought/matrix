@@ -3,10 +3,10 @@ import {action, computed, observable, observe} from "mobx";
 import {observer} from "mobx-react";
 import * as React from "react";
 
-import Board from "./board";
+import GameFieldComponent from "./GameFieldComponent";
 
 @observer
-class Matrix extends React.Component {
+class GameComponent extends React.Component {
 
   @computed
   private get numbers() {
@@ -113,10 +113,10 @@ class Matrix extends React.Component {
           <p className="scoreText">Crossouts: {this.crossoutsMade}</p>
         </div>
         {/*<div className="overflow-scroll">*/}
-          <Board numbers={this.numbersTable}
-                 previousSelectedNumberRow={this.previousSelectedNumberRow}
-                 previousSelectedNumberCol={this.previousSelectedNumberCol}
-                 onCellClick={(row, col) =>
+          <GameFieldComponent numbers={this.numbersTable}
+                              previousSelectedNumberRow={this.previousSelectedNumberRow}
+                              previousSelectedNumberCol={this.previousSelectedNumberCol}
+                              onCellClick={(row, col) =>
                    this.handleNumberClick(row, col)
                  }/>
         {/*</div>*/}
@@ -245,4 +245,4 @@ function numbersMatch(a?: number, b?: number) {
   return a && b && a + b === BOARD_WIDTH + 1 || a === b;
 }
 
-export default Matrix;
+export default GameComponent;
