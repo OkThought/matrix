@@ -3,21 +3,17 @@ import * as React from "react";
 import GameCellComponent from "./GameCellComponent";
 
 interface GameFieldProps {
-  numbers: number[][];
+  rows: number[][];
   onCellClick: (row: number, col: number) => void;
   previousSelectedNumberRow?: number;
   previousSelectedNumberCol?: number;
 }
 
 class GameFieldComponent extends React.Component<GameFieldProps> {
-  get numbers() {
-    return this.props.numbers;
-  }
-
   public render() {
     return (
       <div className="Board overflow-scroll">
-        {this.numbers.map((row, rowIndex) => {
+        {this.props.rows.map((row, rowIndex) => {
           const rowSelected = rowIndex === this.props.previousSelectedNumberRow;
           return (
             <div className="row flex-nowrap mx-0" key={rowIndex}>

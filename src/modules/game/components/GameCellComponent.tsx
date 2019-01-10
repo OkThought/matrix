@@ -1,17 +1,17 @@
 import * as React from "react";
 import {Component} from "react";
 
-interface ICellProps {
+interface CellProps {
   crossedOut: boolean;
   selected: boolean;
   onClick: () => void;
   value: string;
 }
 
-class GameCellComponent extends Component<ICellProps> {
+class GameCellComponent extends Component<CellProps> {
   public render() {
     const {selected, crossedOut, onClick, value} = this.props;
-    const buttonClasses = ['GameCellComponent'];
+    const buttonClasses = ['Cell'];
     if (selected) {
       buttonClasses.push('selected');
     }

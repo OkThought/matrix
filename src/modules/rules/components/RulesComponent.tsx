@@ -1,13 +1,13 @@
 import * as React from "react";
-import classical_board from "../../../assets/images/classical_board.png";
-import cross_out_horizontal from "../../../assets/images/cross_out_horizontal.png";
-import cross_out_horizontal_with_zeros from "../../../assets/images/cross_out_horizontal_with_zeros.png";
-import cross_out_horizontal_with_zeros_next_line from "../../../assets/images/cross_out_horizontal_with_zeros_next_line.png";
-import cross_out_vertical from "../../../assets/images/cross_out_vertical.png";
-import cross_out_vertical_with_zeros from "../../../assets/images/cross_out_vertical_with_zeros.png";
-import next_level from "../../../assets/images/next_level.png";
+import classical_board from "../assets/images/classical_board.png";
+import cross_out_horizontal from "../assets/images/cross_out_horizontal.png";
+import cross_out_horizontal_with_zeros from "../assets/images/cross_out_horizontal_with_zeros.png";
+import cross_out_horizontal_with_zeros_next_line from "../assets/images/cross_out_horizontal_with_zeros_next_line.png";
+import cross_out_vertical from "../assets/images/cross_out_vertical.png";
+import cross_out_vertical_with_zeros from "../assets/images/cross_out_vertical_with_zeros.png";
+import next_level from "../assets/images/next_level.png";
 
-const Rules = () => (
+const RulesComponent = () => (
   <div className="row">
     <div className="rulesNavContainer col-3 sticky-top">
       <nav id="rulesNav" className="navbar navbar-light sticky-top">
@@ -109,4 +109,4 @@ const Rules = () => (
   </div>
 );
 
-export default Rules;
+export default RulesComponent;
