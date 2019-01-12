@@ -1,21 +1,13 @@
 import * as React from "react";
 import {BrowserRouter, Link, Route} from "react-router-dom";
 import HomeComponent from "../../home/components/HomeComponent";
-import GameComponent from "../../game/components/GameComponent";
 import RulesComponent from "../../rules/components/RulesComponent";
-import ApplicationStore from "../stores/ApplicationStore";
-import {inject, observer, Provider} from "mobx-react";
+import {observer} from "mobx-react";
+import GameContainer from "../../game/containers/GameContainer";
 
-interface AppProps {
-  store?: ApplicationStore
-}
-
-@inject('store')
 @observer
 class RouterComponent extends React.Component {
   public render(): React.ReactNode {
-    const store = this.props.store!
-
     return (
       <BrowserRouter basename="matrix">
         <div className='Index h-100'>
@@ -34,12 +26,7 @@ class RouterComponent extends React.Component {
           </nav>
           <div role="main" className="container">
             <Route path="/" exact component={HomeComponent}/>
-            <Route path="/game/" exact
-                   render={() => (
-                     <Provider store={store.gameStore}>
-                      <GameComponent/>
-                     </Provider>
-                   )}/>
+            <Route path="/game/" exact component={GameContainer}/>
             <Route path="/rules/" exact component={RulesComponent}/>
           </div>
         </div>
