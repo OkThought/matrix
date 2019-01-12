@@ -12,7 +12,7 @@ interface AppProps {
 
 @inject('store')
 @observer
-class App extends React.Component<AppProps, {}> {
+class RouterComponent extends React.Component {
   public render(): React.ReactNode {
     const store = this.props.store!
 
@@ -48,4 +48,4 @@ class App extends React.Component<AppProps, {}> {
   }
 }
 
-export default App
+export default RouterComponent

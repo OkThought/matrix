@@ -4,15 +4,15 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
 import './styles/styles.sass';
-import App from "./modules/app/components/App";
-import ApplicationStore from "./modules/app/stores/ApplicationStore";
+import RouterComponent from "./modules/router/components/RouterComponent";
+import RootStore from "./modules/router/stores/RootStore";
 import {Provider} from "mobx-react";
 
 const root = document.getElementById('root');
 
 const rootElement = (
-  <Provider store={new ApplicationStore()}>
-    <App/>
+  <Provider store={new RootStore()}>
+    <RouterComponent/>
   </Provider>
 );
 

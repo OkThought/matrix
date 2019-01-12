@@ -1,7 +1,7 @@
 import GameStore from "../../game/stores/GameStore";
 
-class ApplicationStore {
+class RootStore {
   public gameStore = new GameStore()
 }
 
-export default ApplicationStore
+export default RootStore
