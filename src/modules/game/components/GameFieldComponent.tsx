@@ -1,23 +1,19 @@
 import * as React from "react";
 
-import Cell from "./cell";
+import GameCellComponent from "./GameCellComponent";
 
-interface IBoardProps {
-  numbers: number[][];
+interface GameFieldProps {
+  rows: number[][];
   onCellClick: (row: number, col: number) => void;
   previousSelectedNumberRow?: number;
   previousSelectedNumberCol?: number;
 }
 
-class Board extends React.Component<IBoardProps> {
-  get numbers() {
-    return this.props.numbers;
-  }
-
+class GameFieldComponent extends React.Component<GameFieldProps> {
   public render() {
     return (
       <div className="Board overflow-scroll">
-        {this.numbers.map((row, rowIndex) => {
+        {this.props.rows.map((row, rowIndex) => {
           const rowSelected = rowIndex === this.props.previousSelectedNumberRow;
           return (
             <div className="row flex-nowrap mx-0" key={rowIndex}>
@@ -26,10 +22,10 @@ class Board extends React.Component<IBoardProps> {
                 const crossedOut = !selected && theNumber === 0;
                 return (
                   <div className="col-" key={(rowIndex << 10) + colIndex}>
-                    <Cell onClick={() => this.props.onCellClick(rowIndex, colIndex)}
-                          selected={selected}
-                          crossedOut={crossedOut}
-                          value={theNumber.toString()}
+                    <GameCellComponent onClick={() => this.props.onCellClick(rowIndex, colIndex)}
+                                       selected={selected}
+                                       crossedOut={crossedOut}
+                                       value={theNumber.toString()}
                     />
                   </div>
                 );
@@ -42,4 +38,4 @@ class Board extends React.Component<IBoardProps> {
   }
 }
 
-export default Board;
+export default GameFieldComponent;

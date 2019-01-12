@@ -10,7 +10,9 @@
     "member-ordering": false,
     "trailing-comma": false,
     "object-literal-sort-keys": false,
-    "semicolon": false
+    "semicolon": false,
+    "interface-name": false,
+    "ordered-imports": false
   },
   "jsRules": {
     "quotemark": false

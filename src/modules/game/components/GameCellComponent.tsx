@@ -1,14 +1,14 @@
 import * as React from "react";
 import {Component} from "react";
 
-interface ICellProps {
+interface CellProps {
   crossedOut: boolean;
   selected: boolean;
   onClick: () => void;
   value: string;
 }
 
-class Cell extends Component<ICellProps> {
+class GameCellComponent extends Component<CellProps> {
   public render() {
     const {selected, crossedOut, onClick, value} = this.props;
     const buttonClasses = ['Cell'];
@@ -29,4 +29,4 @@ class Cell extends Component<ICellProps> {
   }
 }
 
-export default Cell;
+export default GameCellComponent;
