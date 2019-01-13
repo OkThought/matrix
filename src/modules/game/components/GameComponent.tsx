@@ -18,7 +18,11 @@ class GameComponent extends React.Component<GameProps> {
       super.componentDidMount();
     }
 
-    observe(this.props.store!, 'crossoutsMade',  () => {
+    const store = this.props.store!
+
+    store.reset()
+
+    observe(store, 'crossoutsMade',  () => {
       const scoreText = $('.scoreText');
       if (scoreText.hasClass('animation2')) {
         scoreText.addClass('animation1')
@@ -61,7 +65,7 @@ class GameComponent extends React.Component<GameProps> {
           <GameFieldComponent rows={store.rows}
                               previousSelectedNumberRow={store.previousSelectedNumberRow}
                               previousSelectedNumberCol={store.previousSelectedNumberCol}
-                              onCellClick={(row, col) => store.handleNumberClick(row, col)}/>
+                              onCellClick={(row, col) => store.handleCellClick(row, col)}/>
       </div>
     );
   }
