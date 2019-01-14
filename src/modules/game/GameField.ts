@@ -9,11 +9,19 @@ export default abstract class GameField {
   protected _rowSize: number = 9
 
   @observable
+  protected _initialSize: number = this.rowSize * 3
+
+  @observable
   protected _radix: number = 10
 
   @computed
   get rowSize(): number {
     return this._rowSize;
+  }
+
+  @computed
+  get initialSize(): number {
+    return this._initialSize
   }
 
   @computed
@@ -43,11 +51,6 @@ export default abstract class GameField {
   public set(newCells: number[]) {
     this.cells.splice(0, this.size, ...newCells)
     // this.cells = [...newCells]
-  }
-
-  @computed
-  protected get initialFieldSize() {
-    return this.rowSize * 3
   }
 
   public crossOut(cellIndex: CellIndex): void {

@@ -2,18 +2,19 @@ import GameField from "./GameField";
 import {action} from "mobx";
 
 export default class ClassicalGameField extends GameField {
-  public constructor(rowSize: number, radix: number) {
+  public constructor(rowSize: number, initialSize: number, radix: number) {
     super();
     this._rowSize = rowSize
+    this._initialSize = initialSize
     this._radix = radix
   }
 
   @action
   public init() {
     for (let i = 1; ; ++i) {
-      if (this.size >= this.initialFieldSize) {
-        if (this.size > this.initialFieldSize) {
-          this.cells.splice(this.initialFieldSize) // cut extra
+      if (this.size >= this.initialSize) {
+        if (this.size > this.initialSize) {
+          this.cells.splice(this.initialSize) // cut extra
         }
         break
       }

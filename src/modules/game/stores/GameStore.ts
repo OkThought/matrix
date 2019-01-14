@@ -22,6 +22,9 @@ class GameStore {
   public seed?: string
 
   @observable
+  public initialSize: number = 27
+
+  @observable
   public history: number[][] = GameStore.INITIAL_HISTORY
 
   @observable
@@ -36,9 +39,9 @@ class GameStore {
   @computed
   public get field(): GameField {
     if (this.seed === undefined) {
-      return new ClassicalGameField(this.rowSize, this.radix)
+      return new ClassicalGameField(this.rowSize, this.initialSize, this.radix)
     } else {
-      return new RandomGameField(this.rowSize, this.radix, this.seed)
+      return new RandomGameField(this.rowSize, this.initialSize, this.radix, this.seed)
     }
   }
 

@@ -7,9 +7,10 @@ export default class RandomGameField extends GameField {
   public readonly seed: string
   private randomGenerator: prng
 
-  public constructor(rowSize: number, radix: number, seed: string) {
+  public constructor(rowSize: number, initialSize: number, radix: number, seed: string) {
     super();
     this._rowSize = rowSize
+    this._initialSize = initialSize
     this._radix = radix
     this.seed = seed
     this.randomGenerator = seedrandom.alea(this.seed)
@@ -18,9 +19,9 @@ export default class RandomGameField extends GameField {
   @action
   public init() {
     this.randomGenerator = seedrandom.alea(this.seed)
-    for (let i = 0; i < this.initialFieldSize; ++i) {
+    for (let i = 0; i < this.initialSize; ++i) {
       this.cells.push(this.randomCell)
-      if (this.size === this.initialFieldSize) {
+      if (this.size === this.initialSize) {
         break
       }
     }
