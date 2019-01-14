@@ -29,6 +29,6 @@ export default class RandomGameField extends GameField {
   private get randomCell(): number {
     const min = 1
     const max = this.radix - 1
-    return (this.randomGenerator.int32() % max) + min
+    return (Math.abs(this.randomGenerator.int32()) % max) + min
   }
 }
