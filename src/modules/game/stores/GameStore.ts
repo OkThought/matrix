@@ -1,4 +1,4 @@
-import {action, computed, observable} from "mobx";
+import {action, autorun, computed, observable} from "mobx";
 import GameField from "../GameField";
 import ClassicalGameField from "../ClassicalGameField";
 import CellIndex from "../CellIndex";
@@ -13,16 +13,18 @@ class GameStore {
   public static readonly INITIAL_CROSSOUTS_MADE = 0
 
   @observable
-  public rowSize: number = 9
+  public rowSize: number
 
   @observable
-  public radix: number = 10
+  public radix: number
 
   @observable
   public seed?: string
 
   @observable
-  public initialSize: number = 27
+  public initialSize: number
+
+  private _field: GameField
 
   @observable
   public history: number[][] = GameStore.INITIAL_HISTORY
@@ -36,13 +38,29 @@ class GameStore {
   @observable
   public crossoutsMade: number = GameStore.INITIAL_CROSSOUTS_MADE
 
+  public constructor(radix: number = 10,
+                     rowSize: number = radix - 1,
+                     initialSize: number = rowSize * 3,
+                     seed?: string) {
+    this.radix = radix
+    this.rowSize = rowSize
+    this.initialSize = initialSize
+    this.seed = seed
+    // to compute the field
+    // noinspection TsLint
+    this._field = this.field
+    autorun(() => this.field.reset())
+  }
+
   @computed
   public get field(): GameField {
+    let field: GameField
     if (this.seed === undefined) {
-      return new ClassicalGameField(this.rowSize, this.initialSize, this.radix)
+      field = new ClassicalGameField(this.rowSize, this.initialSize, this.radix)
     } else {
-      return new RandomGameField(this.rowSize, this.initialSize, this.radix, this.seed)
+      field = new RandomGameField(this.rowSize, this.initialSize, this.radix, this.seed)
     }
+    return field
   }
 
   @computed

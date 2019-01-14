@@ -19,15 +19,19 @@ class RouterComponent extends React.Component {
             <div className="collapse navbar-collapse" id="main-nav">
               <nav className="container navbar-nav justify-content-start">
                 <Link className="navbar-brand nav-item nav-link" to="/">Matrix</Link>
-                <Link className="nav-item nav-link" to="/game/">Play</Link>
+                <Link className="nav-item nav-link" to="/game/radix/10/row/9/size/27/">Play</Link>
                 <Link className="nav-item nav-link" to="/rules/">Rules</Link>
               </nav>
             </div>
           </nav>
           <div role="main" className="container">
             <Route path="/" exact component={HomeComponent}/>
-            <Route path="/game/" exact component={GameContainer}/>
             <Route path="/rules/" exact component={RulesComponent}/>
+            <Route path={"/game/radix/:radix([4-9]|[1-2]\\d|3[0-2])" +
+                              "/row/:rowSize([3-9]|[1-2]\\d|3[0-2])" +
+                              "/size/:initialSize([1-9]\\d?)" +
+                              "/(seed/)?:seed?/"}
+                   component={GameContainer}/>
           </div>
         </div>
       </BrowserRouter>
