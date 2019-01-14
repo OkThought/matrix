@@ -11,20 +11,19 @@ export default class ClassicalGameField extends GameField {
   @action
   public init() {
     for (let i = 1; ; ++i) {
-      const digits = i.toString()
-      if (digits.indexOf('0') !== -1) {
-        continue
-      }
-      this.cells.push(
-        ...(
-          digits
-          .split('')
-          .map((digit) => parseInt(digit, this.radix))
-        )
-      )
-      if (this.size === this.initialFieldSize) {
+      if (this.size >= this.initialFieldSize) {
+        if (this.size > this.initialFieldSize) {
+          this.cells.splice(this.initialFieldSize) // cut extra
+        }
         break
       }
+      const digitChars = i.toString(this.radix).split('')
+      console.log(digitChars)
+      if (digitChars.indexOf('0') !== -1) {
+        continue
+      }
+      const digits: number[] = digitChars.map((digit) => parseInt(digit, this.radix))
+      this.cells.push(...digits)
     }
   }
 }
