@@ -2,11 +2,15 @@ import GameField from "./GameField";
 import {action} from "mobx";
 
 export default class ClassicalGameField extends GameField {
-  public constructor(rowSize: number, initialSize: number, radix: number) {
+  public constructor(
+    radix: number = GameField.RADIX_DEFAULT,
+    rowSize: number = GameField.ROW_SIZE_DEFAULT(radix),
+    initialSize: number = GameField.INITIAL_SIZE_DEFAULT(rowSize),
+  ) {
     super();
+    this._radix = radix
     this._rowSize = rowSize
     this._initialSize = initialSize
-    this._radix = radix
   }
 
   @action
@@ -19,7 +23,6 @@ export default class ClassicalGameField extends GameField {
         break
       }
       const digitChars = i.toString(this.radix).split('')
-      console.log(digitChars)
       if (digitChars.indexOf('0') !== -1) {
         continue
       }

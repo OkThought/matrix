@@ -4,7 +4,7 @@ import GameComponent from "../components/GameComponent";
 import RootStore from "../../router/stores/RootStore";
 
 interface GameContainerProps {
-  store?: RootStore
+  rootStore?: RootStore
   match: {
     params: {
       radix: string
@@ -15,9 +15,17 @@ interface GameContainerProps {
   }
 }
 
-@inject('store')
+@inject('rootStore')
 @observer
 class GameContainer extends React.Component<GameContainerProps> {
+  public render(): React.ReactNode {
+    return (
+      <Provider gameStore={this.gameStore}>
+        <GameComponent/>
+      </Provider>
+    )
+  }
+
   public componentDidUpdate(prevProps: Readonly<GameContainerProps>, prevState: Readonly<{}>, snapshot?: any): void {
     if (super.componentDidUpdate) {
       super.componentDidUpdate(prevProps, prevState, snapshot);
@@ -29,23 +37,17 @@ class GameContainer extends React.Component<GameContainerProps> {
     this.updateGameStoreToMatchUrl()
   }
 
-  public render(): React.ReactNode {
-    const { gameStore } = this.props.store!
-    return (
-      <Provider store={gameStore}>
-        <GameComponent/>
-      </Provider>
-    )
-  }
-
   private updateGameStoreToMatchUrl() {
-    const { gameStore } = this.props.store!
     const { radix, rowSize, seed, initialSize } = this.props.match.params
 
-    gameStore.radix = parseInt(radix)
-    gameStore.rowSize = parseInt(rowSize)
-    gameStore.initialSize = parseInt(initialSize)
-    gameStore.seed = seed
+    this.gameStore.radix = parseInt(radix)
+    this.gameStore.rowSize = parseInt(rowSize)
+    this.gameStore.initialSize = parseInt(initialSize)
+    this.gameStore.seed = seed
+  }
+
+  private get gameStore() {
+    return this.props.rootStore!.gameStore
   }
 }
 

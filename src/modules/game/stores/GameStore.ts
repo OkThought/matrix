@@ -46,8 +46,6 @@ class GameStore {
     this.rowSize = rowSize
     this.initialSize = initialSize
     this.seed = seed
-    // to compute the field
-    // noinspection TsLint
     this._field = this.field
     autorun(() => this.field.reset())
   }
@@ -56,9 +54,9 @@ class GameStore {
   public get field(): GameField {
     let field: GameField
     if (this.seed === undefined) {
-      field = new ClassicalGameField(this.rowSize, this.initialSize, this.radix)
+      field = new ClassicalGameField(this.radix, this.rowSize, this.initialSize)
     } else {
-      field = new RandomGameField(this.rowSize, this.initialSize, this.radix, this.seed)
+      field = new RandomGameField(this.radix, this.rowSize, this.initialSize, this.seed)
     }
     return field
   }

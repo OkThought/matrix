@@ -7,7 +7,12 @@ export default class RandomGameField extends GameField {
   public readonly seed: string
   private randomGenerator: prng
 
-  public constructor(rowSize: number, initialSize: number, radix: number, seed: string) {
+  public constructor(
+    radix: number = GameField.RADIX_DEFAULT,
+    rowSize: number = GameField.ROW_SIZE_DEFAULT(radix),
+    initialSize: number = GameField.INITIAL_SIZE_DEFAULT(rowSize),
+    seed: string,
+  ) {
     super();
     this._rowSize = rowSize
     this._initialSize = initialSize

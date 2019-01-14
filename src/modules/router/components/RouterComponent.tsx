@@ -2,11 +2,18 @@ import * as React from "react";
 import {BrowserRouter, Link, Route} from "react-router-dom";
 import HomeComponent from "../../home/components/HomeComponent";
 import RulesComponent from "../../rules/components/RulesComponent";
-import {observer} from "mobx-react";
+import {inject, observer} from "mobx-react";
 import GameContainer from "../../game/containers/GameContainer";
+import RouterStore from "../stores/RouterStore";
+import GameLinkForm from "../../game/link/components/GameLinkForm";
 
+interface RouterComponentProps {
+  routerStore?: RouterStore
+}
+
+@inject('routerStore')
 @observer
-class RouterComponent extends React.Component {
+class RouterComponent extends React.Component<RouterComponentProps> {
   public render(): React.ReactNode {
     return (
       <BrowserRouter basename="matrix">
@@ -22,8 +29,11 @@ class RouterComponent extends React.Component {
                 <div className="nav-item dropdown">
                   <a className="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
                      aria-haspopup="true" aria-expanded="false">Play</a>
-                  <div className="dropdown-menu">
-                    <Link className="dropdown-item " to="/game/radix/10/row/9/size/27/">Classic</Link>
+                  <div className="dropdown-menu flex-column ">
+                    <Link className="dropdown-item" to="/game/radix/10/row/9/size/27/">Classic</Link>
+                    <div className="dropdown-divider"/>
+                    <h6 className="mx-4">Custom</h6>
+                    <GameLinkForm store={this.routerStore.gameLinkFormStore}/>
                   </div>
                 </div>
                 <Link className="nav-item nav-link" to="/rules/">Rules</Link>
@@ -42,6 +52,10 @@ class RouterComponent extends React.Component {
         </div>
       </BrowserRouter>
     )
+  }
+
+  private get routerStore() {
+    return this.props.routerStore!
   }
 }
 

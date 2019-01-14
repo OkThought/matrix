@@ -2,17 +2,33 @@ import CellIndex from "./CellIndex";
 import {action, computed, observable} from "mobx";
 
 export default abstract class GameField {
+  public static readonly RADIX_MIN = 4
+  public static readonly RADIX_MAX = 32
+  public static readonly RADIX_DEFAULT = 10
+
+  public static readonly ROW_SIZE_MIN = 4
+  public static readonly ROW_SIZE_MAX = 32
+  public static ROW_SIZE_DEFAULT(radix: number) {
+    return radix - 1
+  }
+
+  public static readonly INITIAL_SIZE_MIN = 1
+  public static readonly INITIAL_SIZE_MAX = 99
+  public static INITIAL_SIZE_DEFAULT(rowSize: number) {
+    return rowSize * 3
+  }
+
   @observable
   public cells: number[] = []
 
   @observable
-  protected _rowSize: number = 9
+  protected _radix: number = GameField.RADIX_DEFAULT
 
   @observable
-  protected _initialSize: number = this.rowSize * 3
+  protected _rowSize: number = GameField.ROW_SIZE_DEFAULT(this._radix)
 
   @observable
-  protected _radix: number = 10
+  protected _initialSize: number = GameField.INITIAL_SIZE_DEFAULT(this._rowSize)
 
   @computed
   get rowSize(): number {
@@ -50,7 +66,6 @@ export default abstract class GameField {
   @action
   public set(newCells: number[]) {
     this.cells.splice(0, this.size, ...newCells)
-    // this.cells = [...newCells]
   }
 
   public crossOut(cellIndex: CellIndex): void {
