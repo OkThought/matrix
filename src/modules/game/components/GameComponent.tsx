@@ -7,18 +7,54 @@ import GameFieldComponent from "./GameFieldComponent";
 import GameStore from "../stores/GameStore";
 
 interface GameProps {
-  store?: GameStore
+  gameStore?: GameStore
 }
 
-@inject('store')
+@inject('gameStore')
 @observer
 class GameComponent extends React.Component<GameProps> {
+  public render() {
+    return (
+      <div className="d-flex flex-column align-items-center">
+        <div className="mt-2 sticky-top d-flex flex-column align-items-center">
+          <div className="btn-group" role="group">
+            <button className="btn btn-control"
+                    onClick={() => this.store.reset()}>
+              Reset
+            </button>
+            <button className="btn btn-control"
+                    onClick={() => this.store.undo()}
+                    disabled={!this.store.canUndo}>
+              Undo
+            </button>
+            <button className="btn btn-control"
+                    onClick={() => this.store.redo()}
+                    disabled={!this.store.canRedo}>
+              Redo
+            </button>
+            <button className="btn btn-control"
+                    onClick={() => this.store.nextLevel()}>
+              Next Level
+            </button>
+          </div>
+          <p className="scoreText">Crossouts: {this.store.crossoutsMade}</p>
+        </div>
+          <GameFieldComponent rows={this.store.rows}
+                              previousSelectedNumberRow={this.store.previousSelectedNumberRow}
+                              previousSelectedNumberCol={this.store.previousSelectedNumberCol}
+                              onCellClick={(row, col) => this.store.handleCellClick(row, col)}/>
+      </div>
+    );
+  }
+
   public componentDidMount(): void {
     if (super.componentDidMount) {
       super.componentDidMount();
     }
 
-    observe(this.props.store!, 'crossoutsMade',  () => {
+    // this.store.reset()
+
+    observe(this.store, 'crossoutsMade',  () => {
       const scoreText = $('.scoreText');
       if (scoreText.hasClass('animation2')) {
         scoreText.addClass('animation1')
@@ -30,40 +66,8 @@ class GameComponent extends React.Component<GameProps> {
     });
   }
 
-  public render() {
-    const store = this.props.store!
-
-    return (
-      <div className="d-flex flex-column align-items-center">
-        <div className="mt-2 sticky-top d-flex flex-column align-items-center">
-          <div className="btn-group" role="group">
-            <button className="btn btn-control"
-                    onClick={() => store.reset()}>
-              Reset
-            </button>
-            <button className="btn btn-control"
-                    onClick={() => store.undo()}
-                    disabled={!store.canUndo}>
-              Undo
-            </button>
-            <button className="btn btn-control"
-                    onClick={() => store.redo()}
-                    disabled={!store.canRedo}>
-              Redo
-            </button>
-            <button className="btn btn-control"
-                    onClick={() => store.nextLevel()}>
-              Next Level
-            </button>
-          </div>
-          <p className="scoreText">Crossouts: {store.crossoutsMade}</p>
-        </div>
-          <GameFieldComponent rows={store.rows}
-                              previousSelectedNumberRow={store.previousSelectedNumberRow}
-                              previousSelectedNumberCol={store.previousSelectedNumberCol}
-                              onCellClick={(row, col) => store.handleNumberClick(row, col)}/>
-      </div>
-    );
+  private get store() {
+    return this.props.gameStore!
   }
 }
 

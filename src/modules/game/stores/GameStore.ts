@@ -1,98 +1,148 @@
-import {action, computed, observable} from "mobx";
+import {action, autorun, computed, observable} from "mobx";
+import GameField from "../GameField";
+import ClassicalGameField from "../ClassicalGameField";
+import CellIndex from "../CellIndex";
+import * as _ from "lodash";
+import RandomGameField from "../RandomGameField";
 
 class GameStore {
-  public static readonly INITIAL_FIELD = [
-    1, 2, 3, 4, 5, 6, 7, 8, 9,
-    1, 1, 1, 2, 1, 3, 1, 4, 1,
-    5, 1, 6, 1, 7, 1, 8, 1, 9,
-  ];
+  public static readonly INITIAL_HISTORY = []
 
-  public readonly rowSize: number = 9
+  public static readonly INITIAL_POSITION_IN_HISTORY = 0
+
+  public static readonly INITIAL_CROSSOUTS_MADE = 0
 
   @observable
-  public history: number[][] = [[...GameStore.INITIAL_FIELD]]
+  public rowSize: number
 
   @observable
-  public positionInHistory: number = 0
+  public radix: number
 
   @observable
-  public previousSelectedNumberIndex?: number
+  public seed?: string
 
   @observable
-  public crossoutsMade: number = 0
+  public initialSize: number
+
+  private _field: GameField
+
+  @observable
+  public history: number[][] = GameStore.INITIAL_HISTORY
+
+  @observable
+  public positionInHistory: number = GameStore.INITIAL_POSITION_IN_HISTORY
+
+  @observable
+  public previousSelectedCellIndex?: CellIndex
+
+  @observable
+  public crossoutsMade: number = GameStore.INITIAL_CROSSOUTS_MADE
+
+  public constructor(radix: number = 10,
+                     rowSize: number = radix - 1,
+                     initialSize: number = rowSize * 3,
+                     seed?: string) {
+    this.radix = radix
+    this.rowSize = rowSize
+    this.initialSize = initialSize
+    this.seed = seed
+    this._field = this.field
+    autorun(() => this.field.reset())
+  }
 
   @computed
-  public get previousSelectedNumber() {
-    if (this.previousSelectedNumberIndex !== undefined &&
-        this.previousSelectedNumberIndex >= 0 &&
-        this.previousSelectedNumberIndex < this.cells.length) {
-      return this.cells[this.previousSelectedNumberIndex];
+  public get field(): GameField {
+    let field: GameField
+    if (this.seed === undefined) {
+      field = new ClassicalGameField(this.radix, this.rowSize, this.initialSize)
+    } else {
+      field = new RandomGameField(this.radix, this.rowSize, this.initialSize, this.seed)
     }
-    return undefined;
+    return field
+  }
+
+  @computed
+  public get cells() {
+    return this.field.cells
+  }
+
+  // @observable
+  // public field: GameField = new ClassicalGameField(this.rowSize, this.radix)
+
+  // comment out because otherwise doesn't update on changes
+  @computed
+  public get rows(): number[][] {
+    const result = [];
+    for (let sliceStart = 0; sliceStart < this.field.size; sliceStart += this.field.rowSize) {
+      const sliceEnd = Math.min(sliceStart + this.field.rowSize, this.field.size);
+      result.push(this.cells.slice(sliceStart, sliceEnd));
+    }
+    return result;
+  }
+
+  @computed
+  public get previousSelectedCell() {
+    return (
+      this.previousSelectedCellIndex &&
+      this.field.cell(this.previousSelectedCellIndex)
+    )
   }
 
   @computed
   public get previousSelectedNumberRow() {
     return (
-      this.previousSelectedNumberIndex &&
-      Math.floor(this.previousSelectedNumberIndex / this.rowSize)
-    );
+      this.previousSelectedCellIndex &&
+      this.previousSelectedCellIndex.row
+    )
   }
 
   @computed
   public get previousSelectedNumberCol() {
     return (
-      this.previousSelectedNumberIndex &&
-      this.previousSelectedNumberIndex % this.rowSize
-    );
-  }
-
-  public numbersMatch(a?: number, b?: number) {
-    return a && b && a + b === this.rowSize + 1 || a === b;
+      this.previousSelectedCellIndex &&
+      this.previousSelectedCellIndex.col
+    )
   }
 
   @action
-  public handleNumberClick(row: number, col: number) {
-    const clickedNumberIndex = row * this.rowSize + col;
-    const clickedNumber = this.cells[clickedNumberIndex];
+  public handleCellClick(row: number, col: number) {
+    const clickedCellIndex = new CellIndex(row, col);
+    const clickedCell = this.field.cell(clickedCellIndex);
 
-    if (clickedNumber === 0) {
+    if (clickedCell === 0) {
+      return
+    }
+
+    if (!clickedCell || clickedCell < 0 || clickedCell >= this.radix) {
+      throw Error(`Unexpected number ${clickedCell}`);
+    }
+
+    if (this.previousSelectedCellIndex === undefined) {
+      this.previousSelectedCellIndex = clickedCellIndex;
       return;
     }
 
-    if (!clickedNumber || clickedNumber < 0 || clickedNumber >= 10) {
-      throw Error(`Unexpected number ${clickedNumber}`);
-    }
-
-    if (this.previousSelectedNumberIndex === undefined) {
-      this.previousSelectedNumberIndex = clickedNumberIndex;
+    if (_.isEqual(this.previousSelectedCellIndex, clickedCellIndex)) {
+      this.previousSelectedCellIndex = undefined;
       return;
     }
 
-    if (this.previousSelectedNumberIndex === clickedNumberIndex) {
-      this.previousSelectedNumberIndex = undefined;
-    } else if (this.areNeighbors(clickedNumberIndex, this.previousSelectedNumberIndex)) {
-      if (this.numbersMatch(clickedNumber, this.previousSelectedNumber)) {
-        this.crossOut(this.previousSelectedNumberIndex, clickedNumberIndex);
-      } else {
-        this.previousSelectedNumberIndex = clickedNumberIndex;
-      }
-    } else {
-      this.previousSelectedNumberIndex = clickedNumberIndex;
+    if (!this.field.canBeCrossedOut(this.previousSelectedCellIndex, clickedCellIndex)) {
+      this.previousSelectedCellIndex = clickedCellIndex
+      return
     }
+
+    this.crossOut(this.previousSelectedCellIndex, clickedCellIndex);
   }
 
   @action
-  private crossOut(index1: number, index2: number) {
-    const numbers = this.cells.slice();
-    numbers[index1] = 0;
-    numbers[index2] = 0;
-    this.previousSelectedNumberIndex = undefined;
-
-    this.history = this.history.slice(0, this.positionInHistory + 1).concat([numbers]);
-    this.positionInHistory++;
-    this.removeZeroRows();
-    this.crossoutsMade++;
+  private crossOut(cellIndex1: CellIndex, cellIndex2: CellIndex) {
+    this.field.crossOut(cellIndex1)
+    this.field.crossOut(cellIndex2)
+    this.previousSelectedCellIndex = undefined
+    this.field.removeZeroRows()
+    this.recordFieldInHistory()
+    this.crossoutsMade++
   }
 
   @computed
@@ -102,85 +152,51 @@ class GameStore {
 
   @action
   public undo() {
-    this.positionInHistory--;
-    this.crossoutsMade--;
+    this.positionInHistory--
+    this.setFieldFromHistory(this.positionInHistory)
+    this.crossoutsMade--
   }
 
   @computed
   public get canRedo() {
-    return this.positionInHistory < this.history.length - 1;
+    return this.positionInHistory < this.history.length - 1
   }
 
   @action
   public redo() {
-    this.positionInHistory++;
-    this.crossoutsMade++;
+    this.positionInHistory++
+    this.setFieldFromHistory(this.positionInHistory)
+    this.crossoutsMade++
   }
 
-  private removeZeroRows() {
-    const rowsToRemove: number[] = [];
-    for (let i = 0; i < this.cells.length - this.rowSize; i += this.rowSize) {
-      const row = this.cells.slice(i, i + this.rowSize);
-      if (row.every((n) => n === 0)) {
-        rowsToRemove.push(i);
-      }
-    }
-    rowsToRemove.reverse().forEach((i) => {
-      this.cells.splice(i, this.rowSize);
-    });
+  @action
+  private setFieldFromHistory(positionInHistory: number) {
+    this.field.set(this.history[positionInHistory])
   }
 
   @action
   public nextLevel() {
-    const numbers = this.cells.slice();
-    const positiveNumbers = numbers.filter((n) => n > 0);
-    numbers.push(...positiveNumbers);
-    this.history = [numbers];
-    this.positionInHistory = 0;
+    this.field.copyPositiveCells()
+    this.resetHistory()
   }
 
   @action
   public reset() {
-    this.history = [[...GameStore.INITIAL_FIELD]];
-    this.positionInHistory = 0;
-    this.crossoutsMade = 0;
+    this.field.reset()
+    this.resetHistory()
+    this.crossoutsMade = GameStore.INITIAL_CROSSOUTS_MADE
   }
 
-  private areNeighbors(index1: number, index2: number) {
-    return this.neighbors(index1).indexOf(index2) >= 0;
+  @action
+  private recordFieldInHistory() {
+    this.history.splice(this.positionInHistory + 1, this.history.length, ...[[...this.field.cells]]);
+    this.positionInHistory++;
   }
 
-  private neighbors(index: number) {
-    const neighbors: number[] = [];
-    [-this.rowSize, -1, +1, +this.rowSize].forEach((offset) => {
-      let i = index;
-      while (true) {
-        i += offset;
-        if (i < 0 || i >= this.cells.length) {
-          break;
-        }
-        if (this.cells[i] !== 0) {
-          neighbors.push(i);
-          break;
-        }
-      }
-    });
-    return neighbors;
-  }
-
-  @computed
-  public get cells() {
-    return this.history[this.positionInHistory];
-  }
-
-  @computed
-  public get rows() {
-    const result = [];
-    for (let sliceStart = 0; sliceStart < this.cells.length; sliceStart += this.rowSize) {
-      const sliceEnd = Math.min(sliceStart + this.rowSize, this.cells.length);
-      result.push(this.cells.slice(sliceStart, sliceEnd));
-    }
-    return result;
+  @action
+  private resetHistory() {
+    this.history = [[...this.field.cells]]
+    this.positionInHistory = GameStore.INITIAL_POSITION_IN_HISTORY
   }
 }
 

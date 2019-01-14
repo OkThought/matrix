@@ -3,16 +3,17 @@ import "bootstrap/js/src/util"
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
-import './styles/styles.sass';
-import App from "./modules/app/components/App";
-import ApplicationStore from "./modules/app/stores/ApplicationStore";
 import {Provider} from "mobx-react";
+
+import './styles/styles.sass';
+import RootStore from "./modules/router/stores/RootStore";
+import RouterContainer from "./modules/router/containers/RouterContainer";
 
 const root = document.getElementById('root');
 
 const rootElement = (
-  <Provider store={new ApplicationStore()}>
-    <App/>
+  <Provider rootStore={new RootStore()}>
+    <RouterContainer/>
   </Provider>
 );
 
