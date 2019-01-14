@@ -19,7 +19,13 @@ class RouterComponent extends React.Component {
             <div className="collapse navbar-collapse" id="main-nav">
               <nav className="container navbar-nav justify-content-start">
                 <Link className="navbar-brand nav-item nav-link" to="/">Matrix</Link>
-                <Link className="nav-item nav-link" to="/game/radix/10/row/9/size/27/">Play</Link>
+                <div className="nav-item dropdown">
+                  <a className="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
+                     aria-haspopup="true" aria-expanded="false">Play</a>
+                  <div className="dropdown-menu">
+                    <Link className="dropdown-item " to="/game/radix/10/row/9/size/27/">Classic</Link>
+                  </div>
+                </div>
                 <Link className="nav-item nav-link" to="/rules/">Rules</Link>
               </nav>
             </div>
