@@ -1,6 +1,6 @@
 import * as React from "react";
 import {BrowserRouter, Link, Route} from "react-router-dom";
-import HomeComponent from "../../home/components/HomeComponent";
+import Home from "../../home/components/Home";
 import RulesComponent from "../../rules/components/RulesComponent";
 import {inject, observer} from "mobx-react";
 import GameContainer from "../../game/containers/GameContainer";
@@ -13,7 +13,7 @@ interface RouterComponentProps {
 
 @inject('routerStore')
 @observer
-class RouterComponent extends React.Component<RouterComponentProps> {
+class MatrixRouter extends React.Component<RouterComponentProps> {
   public render(): React.ReactNode {
     return (
       <BrowserRouter basename="matrix">
@@ -41,7 +41,7 @@ class RouterComponent extends React.Component<RouterComponentProps> {
             </div>
           </nav>
           <div role="main" className="container">
-            <Route path="/" exact component={HomeComponent}/>
+            <Route path="/" exact component={Home}/>
             <Route path="/rules/" exact component={RulesComponent}/>
             <Route path={"/game/radix/:radix([4-9]|[1-2]\\d|3[0-2])" +
                               "/row/:rowSize([3-9]|[1-2]\\d|3[0-2])" +
@@ -59,4 +59,4 @@ class RouterComponent extends React.Component<RouterComponentProps> {
   }
 }
 
-export default RouterComponent
+export default MatrixRouter

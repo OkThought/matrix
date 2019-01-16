@@ -1,6 +1,6 @@
 import * as React from "react";
 import RootStore from "../stores/RootStore";
-import RouterComponent from "../components/RouterComponent";
+import MatrixRouter from "../components/MatrixRouter";
 import {inject, Provider} from "mobx-react";
 
 interface RouterContainerProps {
@@ -13,7 +13,7 @@ export default class RouterContainer extends React.Component<RouterContainerProp
     const { routerStore } = this.props.rootStore!
     return (
       <Provider routerStore={routerStore}>
-        <RouterComponent/>
+        <MatrixRouter/>
       </Provider>
     )
   }

@@ -1,6 +1,6 @@
 import * as React from "react";
-import {inject, observer, Provider} from "mobx-react";
-import GameComponent from "../components/GameComponent";
+import {inject, observer} from "mobx-react";
+import Game from "../components/Game";
 import RootStore from "../../router/stores/RootStore";
 
 interface GameContainerProps {
@@ -9,8 +9,8 @@ interface GameContainerProps {
     params: {
       radix: string
       rowSize: string
-      seed?: string
       initialSize: string
+      seed?: string
     }
   }
 }
@@ -20,9 +20,7 @@ interface GameContainerProps {
 class GameContainer extends React.Component<GameContainerProps> {
   public render(): React.ReactNode {
     return (
-      <Provider gameStore={this.gameStore}>
-        <GameComponent/>
-      </Provider>
+      <Game gameStore={this.gameStore}/>
     )
   }
 

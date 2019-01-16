@@ -1,18 +1,17 @@
 import $ from "jquery";
 import {observe} from "mobx";
-import {inject, observer} from "mobx-react";
+import {observer} from "mobx-react";
 import * as React from "react";
 
-import GameFieldComponent from "./GameFieldComponent";
+import Field from "./Field";
 import GameStore from "../stores/GameStore";
 
 interface GameProps {
-  gameStore?: GameStore
+  gameStore: GameStore
 }
 
-@inject('gameStore')
 @observer
-class GameComponent extends React.Component<GameProps> {
+class Game extends React.Component<GameProps> {
   public render() {
     return (
       <div className="d-flex flex-column align-items-center">
@@ -37,12 +36,11 @@ class GameComponent extends React.Component<GameProps> {
               Next Level
             </button>
           </div>
-          <p className="scoreText">Crossouts: {this.store.crossoutsMade}</p>
+          <p className="game-score">Crossouts: {this.store.crossoutsMade}</p>
         </div>
-          <GameFieldComponent rows={this.store.rows}
-                              previousSelectedNumberRow={this.store.previousSelectedNumberRow}
-                              previousSelectedNumberCol={this.store.previousSelectedNumberCol}
-                              onCellClick={(row, col) => this.store.handleCellClick(row, col)}/>
+        <Field rows={this.store.rows}
+               previousSelectedCell={this.store.previousSelectedCellIndex}
+               onCellClick={(row, col) => this.store.handleCellClick(row, col)}/>
       </div>
     );
   }
@@ -52,10 +50,8 @@ class GameComponent extends React.Component<GameProps> {
       super.componentDidMount();
     }
 
-    // this.store.reset()
-
     observe(this.store, 'crossoutsMade',  () => {
-      const scoreText = $('.scoreText');
+      const scoreText = $('.game-score');
       if (scoreText.hasClass('animation2')) {
         scoreText.addClass('animation1')
         scoreText.removeClass('animation2')
@@ -67,8 +63,8 @@ class GameComponent extends React.Component<GameProps> {
   }
 
   private get store() {
-    return this.props.gameStore!
+    return this.props.gameStore
   }
 }
 
-export default GameComponent;
+export default Game;

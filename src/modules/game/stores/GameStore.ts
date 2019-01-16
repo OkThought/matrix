@@ -88,22 +88,6 @@ class GameStore {
     )
   }
 
-  @computed
-  public get previousSelectedNumberRow() {
-    return (
-      this.previousSelectedCellIndex &&
-      this.previousSelectedCellIndex.row
-    )
-  }
-
-  @computed
-  public get previousSelectedNumberCol() {
-    return (
-      this.previousSelectedCellIndex &&
-      this.previousSelectedCellIndex.col
-    )
-  }
-
   @action
   public handleCellClick(row: number, col: number) {
     const clickedCellIndex = new CellIndex(row, col);
