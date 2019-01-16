@@ -66,10 +66,6 @@ class GameStore {
     return this.field.cells
   }
 
-  // @observable
-  // public field: GameField = new ClassicalGameField(this.rowSize, this.radix)
-
-  // comment out because otherwise doesn't update on changes
   @computed
   public get rows(): number[][] {
     const result = [];
@@ -85,22 +81,6 @@ class GameStore {
     return (
       this.previousSelectedCellIndex &&
       this.field.cell(this.previousSelectedCellIndex)
-    )
-  }
-
-  @computed
-  public get previousSelectedNumberRow() {
-    return (
-      this.previousSelectedCellIndex &&
-      this.previousSelectedCellIndex.row
-    )
-  }
-
-  @computed
-  public get previousSelectedNumberCol() {
-    return (
-      this.previousSelectedCellIndex &&
-      this.previousSelectedCellIndex.col
     )
   }
 

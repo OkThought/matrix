@@ -4,11 +4,11 @@ import {Component} from "react";
 interface CellProps {
   crossedOut: boolean;
   selected: boolean;
-  onClick: () => void;
   value: string;
+  onClick?: () => void;
 }
 
-class GameCellComponent extends Component<CellProps> {
+class Cell extends Component<CellProps> {
   public render() {
     const {selected, crossedOut, onClick, value} = this.props;
     const buttonClasses = ['Cell'];
@@ -29,4 +29,4 @@ class GameCellComponent extends Component<CellProps> {
   }
 }
 
-export default GameCellComponent;
+export default Cell;
