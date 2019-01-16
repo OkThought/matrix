@@ -4,8 +4,8 @@ import {Component} from "react";
 interface CellProps {
   crossedOut: boolean;
   selected: boolean;
-  onClick: () => void;
   value: string;
+  onClick?: () => void;
 }
 
 class Cell extends Component<CellProps> {
