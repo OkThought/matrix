@@ -4,25 +4,23 @@ import Cell from "./Cell";
 
 interface FieldProps {
   rows: number[][]
-  onCellClick?: (row: number, col: number) => void
-  previousSelectedCell?: {
+  selectedCells: Array<{
     row: number
     col: number
-  }
+  }>
+  onCellClick?: (row: number, col: number) => void
 }
 
 class Field extends React.Component<FieldProps> {
   public render() {
     return (
       <div className="game-field overflow-scroll">
-        {this.props.rows.map((row, rowIndex) => {
-          const selectedRow = this.props.previousSelectedCell && this.props.previousSelectedCell.row
-          const rowSelected = rowIndex === selectedRow;
+        {this.props.rows.map((cellRow, rowIndex) => {
           return (
             <div className="row flex-nowrap mx-0" key={rowIndex}>
-              {row.map((value, colIndex) => {
-                const selectedCol = this.props.previousSelectedCell && this.props.previousSelectedCell.col
-                const selected = rowSelected && colIndex === selectedCol;
+              {cellRow.map((value, colIndex) => {
+                const selected = this.props.selectedCells.some(
+                  ({row, col}) => row === rowIndex && col === colIndex)
                 const crossedOut = !selected && value === 0;
                 return (
                   <div className="col-" key={(rowIndex << 10) + colIndex}>

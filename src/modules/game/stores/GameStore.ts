@@ -66,10 +66,6 @@ class GameStore {
     return this.field.cells
   }
 
-  // @observable
-  // public field: GameField = new ClassicalGameField(this.rowSize, this.radix)
-
-  // comment out because otherwise doesn't update on changes
   @computed
   public get rows(): number[][] {
     const result = [];

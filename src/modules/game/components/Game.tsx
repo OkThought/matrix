@@ -1,5 +1,5 @@
 import $ from "jquery";
-import {observe} from "mobx";
+import {computed, observe} from "mobx";
 import {observer} from "mobx-react";
 import * as React from "react";
 
@@ -39,7 +39,7 @@ class Game extends React.Component<GameProps> {
           <p className="game-score">Crossouts: {this.store.crossoutsMade}</p>
         </div>
         <Field rows={this.store.rows}
-               previousSelectedCell={this.store.previousSelectedCellIndex}
+               selectedCells={this.selectedCells}
                onCellClick={(row, col) => this.store.handleCellClick(row, col)}/>
       </div>
     );
@@ -64,6 +64,11 @@ class Game extends React.Component<GameProps> {
 
   private get store() {
     return this.props.gameStore
+  }
+
+  @computed
+  private get selectedCells() {
+    return this.store.previousSelectedCellIndex ? [this.store.previousSelectedCellIndex] : []
   }
 }
 
